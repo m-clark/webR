@@ -1,0 +1,151 @@
+# APIs
+
+
+An <span class="emph">application programming interface</span> allows one to interact with a website[^api].  In the simplest situation, this is merely a url-based approach to grabbing what you need.
+
+As an example consider the following generic URL:
+
+`http://somewebsite.com/key?par1;par2`
+
+The key ingredients are:
+
+- `http://somewebsite.com/` the base URL
+- `key` some authorization component
+- `?par1;par2` the parameters of interest that specify what you want to grab from that website.
+
+With R, once we have authorization we can then simply feed the parameters that tell the server what data to provide.
+We can do this in a raw fashion, where we make the URL, or web address[^url], that has the necessary specification, and then simply take what it provides.  Alternatively, there are many R packages to make the process easier for things like Twitter, Qualtrics, and many other websites.
+
+
+## Raw Example
+
+Basic functions of the raw approach are requests to a server things like GET and POST, commands that tell the server to provide something or perhaps provide data to it.  In the following, <span class="objclass">api_key</span>[^apikey] is an R object with a character string of the key provided to me by the website.  I use the <span class="pack">httr</span> package for the web functionality to acquire the content.  In particular, the <span class="func">GET</span> function retrieves whatever information is noted by the request/url.  Additional arguments or modifications to the base URL can also be provided, which is what the `query` part does.
+
+```{r nytimesKey, echo=FALSE}
+source('nytimeskey.R')
+```
+
+```{r most_viewed_articles}
+# raw approach
+library(httr)
+most_viewed_base = GET('https://api.nytimes.com/svc/mostpopular/v2/mostviewed/all-sections/30.json', query=list(`api-key`=api_key))
+# see the url created
+# most_viewed_base$url # tacks on ?api-key=YOURAPI at the end
+```
+
+At this point, <span class="objclass">most_viewed_base</span> is a <span class="objclass">response</span> class object, a list with several pieces of information including what we want, which is the content. 
+
+```{r most_viewed_articles_inspect}
+str(most_viewed_base[-1], 1)
+```
+
+However the content's in <span class="emph">binary</span>, and to get it into a useful state we'll use the <span class="func">content</span> function. The rest of the code just takes the title and arranges it by date.
+
+```{r most_viewed_articles_view}
+most_viewed = content(most_viewed_base)
+lapply(most_viewed$results, function(x) data_frame(title=x$title, date=x$published_date)) %>% 
+  bind_rows() %>% 
+  arrange(desc(date))
+```
+
+The community API can get user comments and movie reviews.  In the following case, it will need a specific date to retrieve comments.  
+
+```{r comments}
+comments_base = GET('http://api.nytimes.com/svc/community/v3/user-content/by-date.json', query=list(date=Sys.Date()))
+comments = content(comments_base)
+sapply(comments$results$comments, function(x) x$commentBody)[1:5]
+```
+
+The API documentation doesn't make obvious what the date format should be, how the comments are chosen (aside from being taken from some section of the paper), or what the limits are.  As mentioned previously, this is typical API documentation in my experience.
+
+
+
+## R packages
+
+Many R packages allow extremely easy access to various websites through their API.  Usually all it takes is acquiring the authorization and the package will do the rest.  It might only be marginally less effort than the raw approach we did before, but can make things more efficient in the long run (assuming the package is kept up to date).
+
+
+### New York Times Article Search
+
+The following is an example of accessing the New York Times article search API[^nytapi].  Using the <span class="pack">rtimes</span> package, we can use a function similar to any other in R. In this case we need a query, beginning date and an end date to collect articles that contain the text of the query. Note that it still requires an key, but that's not shown here.
+
+```{r nytAPI, echo=-(1:2), eval=T, cache=T}
+# for some reason this will fail sometimes due to nytimes having a poor api
+source('nytimeskey.R')
+library(rtimes)
+article_search = as_search(q="bomb", begin_date = '20160918', end_date = '20160919')[-(1:2)]
+
+lapply(article_search$data, function(x) data_frame(snippet=x$snippet, date= x$pub_date)) %>% 
+  bind_rows() %>% 
+  arrange(desc(date))
+```
+
+
+
+### Wikipedia
+
+With the <span class="pack">WikipediR</span> package, getting the whole content of a page is just one possibility, and it feeds nicely into <span class="pack">rvest</span> functionality for more processing.  Here the package's <span class="func">page_content</span> function will extract information from the page. The 'text' element is the html content, which we can then feed to the previously used <span class="pack">rvest</span> functions.  I show only a snippet of the output.
+
+```{r eval=FALSE}
+library(WikipediR)
+r_wikipedia = page_content(language='en', 'wikipedia', page_name = 'R_(programming_language)')
+str(r_wikipedia[[1]], 1) # inspect
+
+
+r_wikipedia$parse$text$`*` %>% 
+  read_html %>% 
+  html_text %>% 
+  message
+```
+
+<img src="img/rpage.png" style="display:block; margin: 0 auto;">
+
+
+### Qualtrics
+
+Qualtrics is a survey software which one can use to create and disseminate surveys and the data from them, and is a very useful tool in this regard.  The University of Michigan has a license, and so anyone at the university can use it, which is why I provide a generic example here.
+
+The <span class="pack">qualtricsR</span>[^qualtricsRLink] package makes it easy to import data from and export surveys to Qualtrics, as well as functionality to create a standard survey within R.  As before you'll need proper authorization, but then it can be straightforward to grab your data from Qualtrics without having to go to the website.
+
+```{r, eval=F}
+library(qualtricsR)
+mydata = importQualtricsData(username = "qualtricsUser@email.address#brand",  # example micl@umich.edu#umich
+                             token = "tokenString", surveyID = "idString")    # your token from Qualtrics
+```
+
+
+### Others
+
+Note that there are many R packages that work with various APIs, so if you're looking to work with data from a site that has an API, definitely see if something already exists.  If it is a very popular website, you are probably not the first person using R that wants to access its data.
+
+
+
+## Issues
+
+### Documentation
+
+One issue I commonly find with APIs is that often they are generally poorly documented beyond a certain level of initial detail, e.g. often telling you what the parameters are but not the values they can take on.  As an example, if something says it wants a date, you may be left to figure out what date format is expected.  Sometimes I feel that developers spend so little effort it seems they don't actually want people to use the API.  Just be aware that you may still have some guesswork left even when a lot of information is provided initially.
+
+### API Changes
+
+Many websites cannot leave the API alone very long.  Sometimes this is due to actual content changes that require subsequent changes in the API, sometimes it might reflect a server side issue that needs to be addressed.  Often a reason isn't given.  The gist is that you shouldn't be surprised if an API package in R doesn't work if it hasn't been updated recently.  As the code is often pretty straightforward, you may be able to easily tweak a function to work with the current API.
+
+### Broken API
+
+Sometimes someone fiddles with things they shouldn't and you start getting errors.  As an example, while developing this document, NY times article search would start providing different errors depending on the combination of start and end date (forbidden, API rate exceeded, no content etc.).  It is not necessarily the case that you are doing something incorrectly.
+
+
+### Restrictions
+
+Note that there are almost always restrictions. For example, the New York Times API limits requests to 1000 calls per day, and five calls per second.  Unfortunately these are typically not based on actual testing of what modern servers could handle and are often overly restrictive (and overly optimistic in estimates of web traffic) in my opinion.   I mention it though because you'll need to plan ahead.  If you need a 1 million requests, but the API restricts you to 1000 a day, you'll obviously need some other way to get the data you want.  A simple request to the website developers for more flexibility might be all that is needed.
+
+
+[^api]: [APIs](https://en.wikipedia.org/wiki/Application_programming_interface) are much more general than just the Web version described here, in that they allow a means of interaction with anything- operating system, software, hardware etc.  For our purposes though, it usually boils down to the examples above.
+
+[^apikey]: The reason you don't see the key is that, like passwords, you should not provide your keys to others. They provide a means for *you* to interact with the website, not other people.
+
+[^nytapi]: There are several APIs for different types of content.
+
+[^qualtricsRLink]: [https://github.com/saberry/qualtricsR](https://github.com/saberry/qualtricsR)
+
+[^url]: Technically <span class="emph">uniform resource locator</span>.

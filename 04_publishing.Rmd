@@ -1,0 +1,163 @@
+# Publishing
+
+<a href="http://rmarkdown.rstudio.com/"><img src="img/RMarkdownOutputFormats_green.png" style="display:block; margin: 0 auto;"></a>
+
+
+The publishing capabilities in R are phenomenal, and keep expanding all the time.  From traditional document types (including pdf and MS Word) to building whole websites with loads of interactivity, R can generally take you where you want to go.  The ability to embed the data in the document is clearly important in academia for the facilitation of ideas and discovery, as well as conducting more reproducible research.  However, such capabilities can benefit anyone.
+
+
+
+## Publishing Languages
+
+
+### Markdown 
+
+<img src="img/Markdown-mark.svg" style="display:block; margin: 0 auto; width:20%">
+
+
+[Markdown](http://daringfireball.net/projects/markdown/) serves as the basis for much of the approach.  Markdown provides an easy way to create html products without coding any raw html.  It is extremely limited in this regard, but for most text it's all you need.  Despite it's utility, there is no standard for markdown and it hasn't been developed in years. Thus there are many flavors of markdown which do continue to be developed, of which <span class="emph">R Markdown</span> is one.
+
+
+### R Markdown
+
+R Markdown is Markdown with some other stuff that allows you to work with R.  Like shiny is for webpages, it's a framework for authoring with data science in mind.  You no longer ever need your documents and data to be separated[^journals].
+
+The basic process is such that you write an R Markdown document and it is then converted into the desired format via other tools, e.g. html or pdf.  Use `File/New File/R Markdown...` in RStudio to get started.
+
+<img src="img/markdown_doc.png" style="display:block; margin: 0 auto;">
+
+
+The following shows what a markdown file might look like. You see <span class="emph">YAML</span> for the first few lines, basic text intermingled with standard markdown (e.g. \*\* adds bold, # are headers), and R chunks, where R code resides. The R code itself may remain hidden, exposed but not run, or run along with the rest of the output and the results shown in the text.
+
+<img src="img/markdown_file.png" style="display:block; margin: 0 auto;">
+
+Much of this process is made possible via the <span class="pack">knitr</span> package, which takes the .Rmd file and *knits* it into the desired format, using things like [pandoc](http://pandoc.org/) and other tools to convert what you to see into the final product.
+
+You can always change the output format, so it doesn't really matter what you select at the initial point. It might be obvious, but you'll need outside programs for some things.  For example, you can't knit a MS Word doc[^msword] if MS Word is not installed on your computer. Likewise, you'll need a $\LaTeX$ installation to create a pdf.  You should also know that what a document renders to in html will not have the exact same look in pdf or MS Word, nor could it be expected to.  If you select an inferior or less flexible format for your publication, don't expect all the bells and whistles that worked in a better format to come along.
+
+
+### HTML, CSS etc.
+
+<img src="img/HTML5.svg" style="display:block; margin: 0 auto; width: 25%">
+
+<span class="emph">HTML</span> is what is behind most of the web that you actually see and interact with, allowing one to create a webpage in a mostly tabular format of some kind. <span class="emph">CSS</span> allows you have a consistent style across a collection of pages usually amalgamated to form an entire website.  <span class="emph">Javascript</span> allows one to build applications that run within the browser, and a host of other languages process data on the server side.  You don't need to know these languages to produce documents with R, but the more you know of them the more you can enhance and customize your product.
+
+
+### LaTeX
+
+It used to be the case that <span class="emph">$\LaTeX$</span> served as the primary means for producing high-quality documents in academia, and with a lot of headache, it can make beautiful work.  However, despite some impressions, these days, pdf and similar print-first output is neither necessary nor really should be the chief means of scientific communication, and so the need of $\LaTeX$ has been greatly minimized.  It is still useful for formulas, but even that is translated via <span class="pack">Mathjax</span>, which is a JavaScript library that essentially reproduces the math functionality of $\LaTeX$.  For example, inserting the following bit in an R Markdown document `$$y = X\beta + \epsilon$$` will produce the following when the document is 'knit':
+
+$$y = X\beta + \epsilon$$
+
+One can also use various latex packages as well if needed.  However, with R Markdown, using raw $\LaTeX$ is rarely needed outside of formal mathematical exposition. There are several packages such as <span class="pack">xtable</span> that may be able to create a $\LaTeX$ table for you, or perhaps there are other means to display things that might be better.  Thinking beyond the restriction of page boundaries and printed work will take time to get used to, but is well worth it.
+
+
+### YAML
+
+<img src="img/yaml.gif" style="display:block; margin: 0 auto;">
+
+<span class="emph">YAML</span> (or YAML Aint Markup Language) serves as the means to configure your R Markdown files[^yaml].  The syntax is very simple, and in the context of an R Markdown document, it allows you to specify things like the output type, title, other css files to use, and so forth. This will start any R Markdown file you use unless you have one main file that calls other Rmd files.
+
+
+### Pandoc
+
+<span class="emph">Pandoc</span> is a universal converter[^pandoc], allowing markup languages to flop from one format to another. Essentially a [babel fish](https://en.wikipedia.org/wiki/List_of_races_and_species_in_The_Hitchhiker's_Guide_to_the_Galaxy#Babel_fish) for web, it reads the markdown, HTML, $\LaTeX$, and everything else and converts it to an HTML, pdf etc. document.  From the pandoc website:
+
+> Markdown, CommonMark, PHP Markdown Extra, GitHub-Flavored Markdown, MultiMarkdown, and (subsets of) Textile, reStructuredText, HTML, LaTeX, MediaWiki markup, TWiki markup, Haddock markup, OPML, Emacs Org mode, DocBook, txt2tags, EPUB, ODT and Word docx; and it can write plain text, Markdown, CommonMark, PHP Markdown Extra, GitHub-Flavored Markdown, MultiMarkdown, reStructuredText, XHTML, HTML5, LaTeX (including beamer slide shows), ConTeXt, RTF, OPML, DocBook, OpenDocument, ODT, Word docx, GNU Texinfo, MediaWiki markup, DokuWiki markup, ZimWiki markup, Haddock markup, EPUB (v2 or v3), FictionBook2, Textile, groff man pages, Emacs Org mode, AsciiDoc, InDesign ICML, TEI Simple, and Slidy, Slideous, DZSlides, reveal.js or S5 HTML slide shows. It can also produce PDF output on systems where LaTeX, ConTeXt, or wkhtmltopdf is installed.
+
+### Summary
+
+As mentioned you don't have to know these languages to produce really interesting documents.  However, being more cognizant of their capabilities means you'll be able to be more creative with your products.
+
+
+
+## Document Formats
+
+
+### HTML 
+
+The <span class="func">html_document</span> is the default output for R Markdown documents, and really should be your default as well.  It provides much more freedom and easier specificity in the way content is presented, and can get quite extensive.
+
+
+### Notebooks
+
+<img src="img/notebook_example.png" style="display:block; margin: 0 auto; width:50%">
+
+I've been using <span class="emph">notebooks</span> since they were first advertised as part of an RStudio preview release.  However, it is still not clear to me what their role is[^phablet], other than to allow your output to reside in your R markdown document rather than the console, something typically not desirable (at least with how I use R).  I guess it's useful if you want to share the script/document and let someone else play with the code, but technically they could do that with an R Markdown document anyway, or a basic R script for that matter.  Having the output below or to the side of the document rather than a few inches from that point is not something I can get overly excited about, and you can do that with the standard <span class="func">html_document</span> format.  And sometimes there is a lot of output from a chunk that I definitely do not want clogging up the code or document, but still may want to regularly inspect.  Code should have a *flow* just like text should, at least that's my opinion.  
+
+That said, notebooks do appear be highly useful for educational purposes, and more so if they make it such that the notebooks run in Jupyter similar to Python's \*.nb files. I also like Julia's approach to it's standard script, where you can simply hover/click for the output rather than have it automatically spat out, and maybe the R notebooks will go that direction. Stay tuned to see how this document format pans out. 
+
+
+### Print
+
+For more print-oriented approaches you have pdf, MS Word, RTF, ODF.  As mentioned, you will need to have something else installed (e.g. a $\TeX$ installation for pdf) in order to use these.  Furthermore, you should think very hard about whether you need them, as you will sacrifice your document's capabilities and look in some fashion.
+
+
+### Journals
+
+There is some template support for Elsevier journals (assuming you're not [boycotting them](https://en.wikipedia.org/wiki/The_Cost_of_Knowledge)) and some specific ones that the R crowd would be interested in such as the Journal of Statistical Software.  More may be available via packages or added over time.  My impression is that it's more likely the journals are catering to the output (e.g. some already accept markdown files), such that the templates may not be necessary.
+
+
+
+## Presentations
+
+Some of the presentations for my [CSCAR workshops](https://m-clark.github.io/workshops/) use <span class="pack">revealjs</span>[^reveal] or similar for a web-based approach, though I find slides highly restrictive for conveying information that isn't visual.  For better or worse, at present there are multiple types of presentations one might use in R with varying degrees of functionality.  
+
+<img src="img/presentation.png" style="display:block; margin: 0 auto;">
+
+- <span class="emph">ioslides</span>:	HTML presentation with ioslides
+- <span class="emph">reveal.js</span>:	HTML presentation with reveal.js (requires <span class="pack">revealjs</span> package/template)
+- <span class="emph">Slidy</span>:	HTML presentation with W3C Slidy
+- <span class="emph">Beamer</span>:	PDF presentation with $\LaTeX$ Beamer
+
+These days I cannot think of a reason to do a set of pdf slides as there is zero benefit and an automatic loss of functionality. The others are more configurable and can work on any device as easily.  Given that you can run something like an interactive shiny app as part of a presentation, why would you give that up?[^ripbeamer]  As for the others, they will all serve you well but seem intermittently developed aside from the <span class="pack">revealjs</span>.  Be aware that just because you did it with a standard html_document format, does not mean it will work just the same when trying to make a slide form of it[^slidesdontwork].
+
+## Other formats
+
+<img src="img/octocat.png" style="display:block; margin: 0 auto; width:25%">
+
+- <span class="emph">bookdown</span>	HTML, PDF, ePub, and Kindle books
+- <span class="emph">Websites</span>	Multi-page websites. 
+- <span class="emph">Tufte Handout</span> 	Handouts in the style of Edward Tufte
+- <span class="emph">Package Vignette</span> 	R package vignette (HTML)
+- <span class="emph">GitHub Document</span>  GitHub Flavored Markdown document.
+
+I'll provide a few words about these formats but may expand later. This document was created with bookdown, so that should give you some idea about its capabilities.  The website format is not shiny nor just the standard html doc output, but a format of its own.  The Tufte handouts work very well for pdf, and perhaps for standard html versions, but I've had issues with bookdown and the Tufte output is not well documented for it.  Package vignettes are very useful if you actually create an R package, but can otherwise be ignored.  A GitHub doc isn't much different from standard markdown, so may be of limited use, even assuming you are using GitHub in the first place.
+
+
+## Other
+
+### Customization
+
+For customization you'll need to learn at least a little HTML and CSS, and possibly quite a bit once you go down the rabbit hole, along with other languages such as JavaScript.  This goes for all R markdown based document formats.  I find it necessary to get things how I want them, but you may be fine with default themes etc.
+
+In addition, user created formats with custom looks or functionality are now coming into play, and will provide other formats beyond what you can get from the RStudio crowd. 
+
+
+### Rpubs
+
+With an [Rpubs](https://rpubs.com) account, you can publish your documents directly to the web for easy dissemination.  This allows you to share any of your R creations with ease. For those in academia this is perhaps of limited use, as typically everyone is given their own web space already.  However, even then it could potentially serve as an additional outlet.
+
+
+### More
+
+I'll add more stuff here as I come across it.
+
+
+[^journals]: Unfortunately, many journals still seem to think it's 1985 where people mostly access them in print form in the library.  These are also journals that aren't being cited as much anymore.  Accessibility and openness are the hallmarks of science, and any journal outlets that have not figured this out should not be allowed to ride the coattails of their past status.
+
+[^msword]: I've yet to come across any reason to still be using MS Word nowadays.  It is easier to create an MS Word document via markdown than it is to use the program itself.
+
+[^ripbeamer]: R.I.P. Beamer.
+
+[^yaml]: There are other things that YAML is that I do not understand (e.g. How 'Yet Another Markup Language' now doesn't want to be considered a markup language).
+
+[^pandoc]: Actually a Haskell library.
+
+[^phablet]: Maybe I'm short-sighted but notebooks strike me as the phablet of R markdown output formats. As quoted from J.J. Allaire in response from someone who wanted a simple description that states the difference between notebooks and the standard html doc: "They are the same thing, r notebooks are just a way of working interactively with R Markdown and embedding the source code directly within the R Markdown output."  
+
+[^jupyterR]: You can already use R with Jupyter, but it's very limited compared with what you can do with R in RStudio with R Markdown.
+
+[^reveal]: revealjs is an R package that ports the reveal JavaScript library.
+
+[^slidesdontwork]: It's not clear to me why anything shouldn't work aside from bounding box issues, but you'll have notable problems with some interactive graphics, while others will work great.

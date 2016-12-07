@@ -1,0 +1,221 @@
+# Web scraping
+
+
+We begin with a discussion on <span class="emph">web scraping</span>. The term itself is ambiguous, and could potentially mean anything[^otherwsnames], but the gist is that there is something out on the web (or some connected machine) that we want, and we'd like to use R to get it. This section won't (at least for now) get into lower level utilities such as that provided by <span class="pack">httr</span> or <span class="pack">Rcurl</span>, though some packages will be using them under the hood.  Instead, focus will be on higher-level approaches with an eye toward common tasks.
+
+As a starting point, open a browser and go to a website of your preference. For most browsers, Ctrl+U will open up the underlying html file.  If you're on a typical webpage it will almost certainly look like a mess of <span class="emph">html</span>, <span class="emph">JavaScript</span>, <span class="emph">XML</span> and possibly other things. Simpler pages are more easily discernible, while more complex/secure pages are not.  The take home message is that what you want is represented by something in there, and you'll have to know something about that structure in order to get it.
+
+Unfortunately, a lot of web design is quite poor[^webdesign], which will make your job difficult.  Even when the sole purpose of a site is to provide data, you can almost be sure that the simplest/most flexible path will not be taken to do so. Thankfully you can use R and possibly other tools to make the process at least somewhat less painful.
+
+
+## Direct data download
+
+One thing to be aware of is that you can get data from the web that are in typical formats just as you would any file on your own machine.  For example:
+
+```{r direct_download, eval=FALSE}
+mydata = read.csv('http://somewebsite/data.csv')
+```
+
+
+I wouldn't even call this web scraping, just as you wouldn't if you were getting a file off a network connection.  However, if you're just starting out with R, it's important to know this is possible.  In any case, do not make things more difficult than they need to be- if the file is available just grab it.
+
+
+## Key concepts
+
+The web works in mysterious ways, but you don't have to know a lot about it to use it or benefit from its data.  Many people have had their own websites for years without knowing any html.  For our purposes, it helps to know a little and is actually required, at least so that we know what to look for.
+
+Common [elements](https://en.wikipedia.org/wiki/HTML_element) or <span class="emph">tags</span>[^tagvelement] of a webpage include things like `div` `table` and `ul` and `body`, and within such things our data will be found.  Some common ones include:
+
+- `div` and `span`: used when other elements are not appropriate but one still wants to define classes, ids etc.
+- `p` paragraph
+- `a` link (technically 'anchor')
+- `ul` `ol` lists
+- `table` `tr` `td` tables, table rows, table data (cell)
+- `h#`  i.e. `h1` `h2` etc.  headers
+- `img` images
+
+Consider the following:
+
+```{html}
+<h3> This header denotes a section of text
+
+<img src="picture_of_cat.png"></img>
+
+<p> This is a  paragraph! </p>
+
+<p> Here is another! This one has <a href="www.someurl.com">a link</a>! </p>
+```
+
+As an example, if we wanted to scrape every paragraph that had the word paragraph in it, we'd need to first get all the `<p>` elements and work from there.
+
+Just like in other programming languages, these parts of a webpage have their own <span class="emph">class</span>, e.g. `<table class="wikitable sortable">`, and this allows even easier access to the objects of specific interest. Take a look at the source for the Wikipedia page for [towns in Michigan](https://en.wikipedia.org/wiki/List_of_cities,_villages,_and_townships_in_Michigan).
+
+<img src="img/mich_town_wiki.png" style="display:block; margin: 0 auto;">
+
+The <span class="emph">id</span> is another <span class="emph">attribute</span>, or way to note specific types of objects. Unlike classes, which might be used over and over within a page, ids are unique, and thus for web scraping, probably more useful when appropriate to the task.  Also, while elements can have multiple classes, they can have only one id.  Any particular element might also have different attributes that specify things like style, alignment, color, file source etc.
+
+The sad thing is that attributes are greatly underutilized in general.  For example, perhaps you found a page with several html tables of data, one for each year.  It would have been simple to add an `id = year` to each one, enabling you to grab just the specific year(s) of interest, but it'll be rare that you'd find a page that goes that far.  Part of this could be due to the fact that much content is auto-generated via WYSIWYG editors, but these are not very professional pages if so, which might cause concern for the data given such a source.  Take a look at the [open.fda.gov](https://open.fda.gov) site:
+
+<img src="img/openfda.png" style="display:block; margin: 0 auto;">
+
+It has lots of attributes for practically every element, which would make getting stuff off the page fairly easy, if it didn't already have an [API][APIs].
+
+In any case, you'll at least need to know the tag within which the data or link to it may be found.  Classes and ids will help to further drill down the web page content, but often won't be available.  In such a case you might have to grab, for example, all the links, and then use some <span class="emph">regular expression</span> to grab only the one you want. See this [link](https://en.wikipedia.org/wiki/HTML_attribute) for more on relations between attributes and elements.
+
+## The basic approach
+
+To summarize the basic approach, we can outline a few steps:
+
+0. If a direct link or API is available use it[^apicaveat]
+1. Inspect the page to find the relevant tags within which the content is found
+2. Start with a base URL
+3. Use the relevant R packages to parse the base page
+4. Extract the desired content
+
+
+## Examples
+
+One of the packages that can make scraping easy is <span class="pack">rvest</span>, which is modeled after/inspired by the <span class="pack">Beautiful Soup</span> module in Python[^bs].  As the goal here is to get you quickly started, we won't inundate you with a lot of packages yet. I recommend getting comfy with <span class="pack">rvest</span> and moving to others when needed.
+
+### Tables
+#### Wikipedia
+
+A lot of Wikipedia has pages ripe for the scraping, but it also has an API, so that we can use it as an example later as well. Between the page layout and <span class="pack">rvest</span> it will be very easy to get the content. So let's do so.  Back to the page of towns in Michigan.  Let's see if we can get the table of towns with their type, county, and population.  First things first, we need to get the page.
+
+```{r read_towns}
+page = 'https://en.wikipedia.org/wiki/List_of_cities,_villages,_and_townships_in_Michigan'
+
+library(rvest)
+
+towns = read_html(page)
+str(towns)
+towns
+```
+
+The result of <span class="func">read_html</span> is an <span class="objclass">xml_document</span> class object. For the uninitiated, XML is a markup language (Extensible Markup Language) like HTML, and which allows one to access its parts as nodes in tree[^tree], where *parents* have *children* and *grandchildren* etc.  It will require further parsing in order to get what we want, but it was easy enough to snag the page.  Let's look at some of the nodes.
+
+```{r examine_nodes}
+html_nodes(towns, 'ul') %>% head   # unordered lists (first few)
+html_nodes(towns, 'a') %>% head    # links 
+html_nodes(towns, 'table')         # tables
+```
+
+Perhaps now you are getting a sense of what we can possibly extract from this page. It turns out that what we want is a table element, and in particular, the one that is of class `wikitable sortable`.  This will make things very easy.  But what if we didn't know what the element was?  it turns out there are tools like [SelectorGadget](http://selectorgadget.com)[^firebug] that can be used to inspect the elements of any webpage.  SelectorGadget can be added as a browser extension, which would allow you to easily turn it on and off as needed.  The following depicts what the Michigan towns looks like when using SelectorGadget and selecting a link.
+
+<img src="img/selectorgadget.png" style="display:block; margin: 0 auto;">
+
+It highlights everything else in the page that is of a similar type (i.e. other links), as well as provides the css/xml info that we would need to grab that particular item.
+
+As mentioned, we want the `wikitable sortable` class table, so lets grab that. The <span class="pack">rvest</span> package comes with the <span class="func">html_table</span> function, that will grab any table and attempt to put it into a data.frame object.  I only show the first couple because one of the tables comes out pretty messy at the R console.
+
+```{r examine_table}
+str(html_table(towns)[1:3])
+```
+
+We know which class object we want though, so we could have used <span class="func">html_nodes</span> to grab *only* that object and work with it.
+
+```{r extract_inspect_table}
+html_nodes(towns, '.wikitable.sortable') %>% 
+  html_table() %>% 
+  .[[1]] %>% 
+  head()
+```
+
+Here the `.` in `.wikitable.sortable` represents the class/subclass (use `#` for ids). In general though, if you know it's a table, then use <span class="func">html_table</span>.  When the table has no class then you'll have to use a magic number or some other means to grab it, which may not be as robust.  Of course, the class itself might change over time also.
+
+So let's put this all together.
+
+```{r wikitableGraph, cache=TRUE}
+library(stringr)
+towns %>% 
+  html_table() %>% 
+  .[[2]] %>% 
+  rename(Population = `2010 Population`) %>% 
+  mutate(Population = strtoi(str_replace_all(Population, ',', '')),
+         Type = factor(Type)) %>% 
+  filter(!Type %in% c('unincorporated community', 'CDP')) %>% 
+  ggplot(aes(x=Population, fill=Type, color=Type)) +
+  scale_x_log10() +
+  geom_density(alpha=.2) +
+  theme(panel.background=element_rect(fill='transparent', color=NA),
+        plot.background=element_rect(fill='transparent', color=NA))
+```
+
+I won't go into details about the rest of the code regarding data processing, as that's for another [workshop](http://m-clark.github.io/workshops/dplyr/mainSlides.html).  For now it suffices to say that it didn't take much to go from URL to visualization.
+
+
+#### Basketball Reference
+
+As an additional example let's get some data from [basketball-reference.com](http://www.basketball-reference.com/).  The following gets the totals table from the URL[^bref]. Issues include header rows after every 20^th^ row of data, and converting all but a few columns from character to numeric.
+
+```{r scrapeBref}
+url = "http://www.basketball-reference.com/leagues/NBA_2016_totals.html"
+bball = read_html(url) %>% 
+  html_node("#totals_stats") %>%                       # grab element with id 'total_stats'
+  html_table() %>%                                     # the data
+  filter(Rk != "Rk") %>%                               # remove header rows
+  mutate_at(vars(-Player, -Pos, -Tm), as.numeric)      # convert to numeric
+
+str(bball)
+```
+
+### Text
+
+A lot of times we'll want to grab text as opposed to tables.  See the [API chapter][APIs] for an example, and the <span class="func">html_text</span> function in the <span class="pack">rvest</span> package.
+
+### Images
+
+Images are fairly easy because they are simply files with specific extensions like `svg`, `png`, `gif` etc.  In that sense, if one knows the actual location of the image already, a function like <span class="func">download.files</span> can be used to grab it directly.  Other times it may not be known, and so we can use a similar approach as before to grab the file.
+
+```{r scrapeImage}
+base_page = read_html('https://en.wikipedia.org/wiki/Main_Page')
+picofday_location = base_page %>%    # get the main page
+  html_nodes('#mp-tfp') %>%          # extract the div with 'today's featured picture', i.e. tfp
+  html_nodes('img') %>%              # extract the img
+  html_attr('src')                   # grab the source location
+```
+
+
+With location in hand we can now download the file, and even display it in R. The following requires the <span class="pack">grid</span> and <span class="pack">jpeg</span> packages.
+
+```{r download_show_image, fig.width=2, fig.height=3}
+download.file(url=paste0('https:', picofday_location), destfile='img/picofday.jpg', mode='wb')
+picofday = jpeg::readJPEG(source='img/picofday.jpg')
+
+df = data.frame(x=rnorm(1), y=rnorm(1))  # note that any random df will suffice
+
+qplot(data=df, geom='blank') +                
+  annotation_custom(grid::rasterGrob(picofday)) +
+  theme_void()
+```
+
+Note that an alternative approach that might work on some websites would be to extract all the images and then the one with a relevant naming convention.  This doesn't work for the Wikipedia main page because there is nothing to identify which image is the featured picture by file name alone.
+
+## Issues
+
+As mentioned, the ease with which you will be able to scrape a website will depend a lot on how well the page/site is put together. Many are cookie-cutter templates designed with no regard to data availability whatsoever, others are just the result of amateurs that do not do web design for a living, and still others are just poorly designed.  In addition, some websites may have security or other server back end things to consider that require much of the content to not be made easily available, perhaps intentionally.
+
+
+On the other hand, other sites will make it as easy as a URL pointing to a csv file, or an API that is easily maneuverable.  The main thing is that you must plan ahead for it to either not be easy to get, and/or to be ready for heavy post-processing even when you get the bulk of what you want.  The goal should be to make the process automatic such that only a fundamental site or API change will cause you to have to change your code again.
+
+
+
+
+
+
+
+[^otherwsnames]: Called by various names: web harvesting, data scraping (presumptuous), etc.
+
+[^webdesign]: Think about your R code, now remove the spaces, indent as irregularly as possible, do not comment anything, use reserved words for common names, don't name important parts of your site, reject any known coding style, and use default settings.  That would describe about 99% of the typical website design I come across.
+
+[^tagvelement]: There is subtle distinction between [tags versus elements](https://en.wikipedia.org/wiki/HTML_element#Elements_vs._tags), but which won't really matter to us.
+
+[^bs]: I highly recommend [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/) also. Until <span class="pack">rvest</span> and related packages came along, I preferred using Beautiful Soup to what was available in R.
+
+[^tree]: Think graphical models rather than spruce.
+
+[^firebug]: The openfda site was depicted using the Mozilla firebug extension.
+
+[^bref]: Technically this data can be downloaded as a supplied csv.
+
+[^apicaveat]: APIs change so regularly that in some cases it might be easier to scrape as above, especially if the site itself changes relatively rarely and still allows direct access to the desired content.

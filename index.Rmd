@@ -1,0 +1,73 @@
+--- 
+title: <span style="font-size:150%; font-variant:small-caps; font-style:italic; color:#1e90ff">Engaging the Web with\.\.\. </span>
+author:  |
+  <img src="img/Rlogo.png" style="display:block; margin: 0 auto; width:20%"><br>
+  <div class="title"><span style="font-size:125%; font-variant:small-caps; ">Michael Clark</span><br>
+  <span style="font-size:75%; margin: 0 auto;">Statistician Lead</span> <br>
+  <img src="img/signature-acronym.png" style="width:33%; padding:10px 0;"> <br>
+  <img src="img/ARC-acronym-signature.png" style="width:22%; padding:10px 0;"> </div>
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: 
+    bookdown::gitbook:
+      css: [webR.css]
+      highlight: pygments
+      number_sections: false
+      config:
+        sharing:
+          facebook: false
+          twitter: false
+        search: yes
+        edit: no
+        fontsettings:
+          family: sans
+          size: 2
+    # bookdown::tufte_html_book:
+    #   toc: yes
+    #   css: [toc.css, ../notebooks.css]
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: m-clark/Workshops
+description: "An introduction to using R for the web."
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment=NA, cache=T, message = F, warning=F, 
+                      R.options=list(width=120), fig.align='center')
+```
+
+
+# Introduction {.unnumbered} 
+
+```{r echo=FALSE}
+library(tufte); library(tidyverse)
+```
+
+<span style="font-variant:small-caps; font-size:150%">Well known for its statistical capabilities</span>, R can also be used for web-scraping, connecting with websites via APIs, html documents and presentations, interactive visualizations, dashboards, and even building entire, possibly interactive, websites.  This document and related talk will provide an overview of web-based use of R. Conceptual introductions, package synopses, and small demonstrations will be presented. 
+
+
+## Prerequisites {.unnumbered} 
+
+Basic R knowledge is all that is required, and not even statistical knowledge of any kind is assumed.  The focus will be on breadth (e.g. common use) rather than depth. One of the things you'll want to do before getting started is to peruse the Task Views for [Web Technologies](https://cran.r-project.org/web/views/WebTechnologies.html).
+
+
+Color coding:
+
+- <span class="emph">emphasis</span>
+- <span class="pack">package</span>
+- <span class="func">function</span>
+- <span class="objclass">object/class</span>
+- [link]()
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(.packages(), 'bookdown', 'knitr', 'rmarkdown'), 'packages.bib')
+```
+
+
+
+
+
+

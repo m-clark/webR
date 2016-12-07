@@ -1,0 +1,182 @@
+---
+title: <span style="font-size:100%; font-variant:small-caps; font-style:italic;">Engaging the Web with $\dots$</span>
+author:  |
+  <img src="../img/Rlogo.png" style="display:block; margin: 0 auto; width:20%"><br>
+  <div class="title"><span style="font-size:125%; font-variant:small-caps; ">Michael Clark</span><br>
+  <span style="font-size:75%; display:block; margin: 0 auto;">Statistician Lead</span> <br>
+  <img src="../img/signature-acronym-white.png" style="display:block; margin: 0 auto;width:33%; padding:10px 0;"> <br>
+  <img src="../img/ARC-acronym-signature-white.png" style="display:block; margin: 0 auto;width:22%; padding:10px 0;"> </div>
+output: 
+  revealjs::revealjs_presentation:
+    theme: dark
+    transition: zoom
+    incremental: true
+    center: true
+css: slides_light.css
+
+---
+
+## Document Page
+
+[m-clark.github.io/docs/web](http://m-clark.github.io/docs/web)
+
+or just go to m-clark.github.io/ and the documents section
+
+
+# Web Scraping  
+
+## Key Concepts
+
+<p class='fragment emph'> tags</p>
+<p class='fragment emph'> classes </p>
+<p class='fragment emph'> ids</p>
+
+## Basic Approach
+
+$0.$ If a direct link or API is available use it
+
+$1.$ Inspect the page to find the relevant tags
+
+$2.$ Start with a base url
+
+$3.$ Use R packages to parse/process the base page
+
+$4.$ Extract the desired content
+
+
+## Useful packages
+
+<span class="pack">rvest</span> (and <span class="pack">xml2</span>)
+
+<span class="pack">httr</span>, <span class="pack">RCurl</span> (behind the scenes)
+
+<span class="pack">dplyr</span> (data processing and pipe approach)
+
+<span class="pack">stringr</span> (string processing)
+
+
+## Examples
+
+<span class='fragment current-visible emph' style="font-size:200%"> Tables </span>
+
+<span class='fragment current-visible emph' style="font-size:200%"> Text </span>
+
+<span class='fragment current-visible emph' style="font-size:200%"> Images </span>
+
+
+## Issues
+
+The web is messy
+
+Lots of post-processing
+
+Limits/legality
+
+
+
+
+# APIs{data-transition="slide"}
+
+## Examples
+
+<span class='fragment current-visible emph' style="font-size:200%"> Raw </span>
+
+<span class='fragment current-visible emph' style="font-size:200%"> R packages </span>
+
+## Issues
+
+<span class='fragment emph' style="font-size:200%"> Documentation </span>
+
+<span class='fragment emph' style="font-size:200%"> API changes </span>
+
+<span class='fragment emph' style="font-size:200%"> Broken API </span>
+
+<span class='fragment emph' style="font-size:200%"> Restrictions </span>
+
+
+
+
+# Visualization  {data-transition="zoom"}
+
+## Systems
+
+<span class='fragment emph' style="font-size:200%"> Plotly </span>
+
+
+<img src="../../img/plotly_platforms.png" style="display:block; margin: 0 auto;">
+
+<span class='fragment emph' style="font-size:200%"> Bokeh </span>
+
+<img src="../../img/rpy.png" style="display:block; margin: 0 auto; width:40%">
+
+
+
+## htmlwidgets
+
+<img src="../../img/javascript.png" style="display:block; margin: 0 auto;">
+
+
+```{r, echo=F, eval=F}
+library(visNetwork)
+nodes <- data.frame(id = 1:6, title = paste("node", 1:6), 
+                    shape = c("dot", "square"),
+                    size = 10:15, color = c("blue", "red"))
+edges <- data.frame(from = 1:5, to = c(5, 4, 6, 3, 3))
+visNetwork(nodes, edges) %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE)
+```
+
+
+## Shiny
+
+Create interactive web apps with R
+
+Takes a bit to get started
+
+You'll need webspace to share (e.g. [shinyapps.io]())
+
+
+Two main components: UI, Server
+
+
+
+
+## Dashboards
+
+Create interactive web apps with R
+
+Shiny shortcut
+
+
+
+
+# Publishing  {data-transition="zoom"}
+
+
+## Publishing Languages
+
+<img src="../../img/Markdown-mark.svg" style="display:block; margin: 0 auto; width:20%">
+<br>
+<img src="../../img/HTML5.svg" style="display:block; margin: 0 auto; width:20%">
+
+<div style="text-align:center; font-size:200%">$\LaTeX$</div>
+
+<img src="../../img/yaml.gif" style="display:block; margin: 0 auto; width:20%">
+
+
+## Document Formats
+
+<img src="../../img/RMarkdownOutputFormats_green.png" style="display:block; margin: 0 auto;">
+
+
+## Presentations
+
+<p class="fragment emph" style="text-align:center">ioslides</p>
+<p class="fragment emph" style="text-align:center">reveal.js</p>
+<p class="fragment emph" style="text-align:center">Slidy</p>
+<p class="fragment emph" style="text-align:center">Beamer</p>
+
+
+## Other Stuff
+
+<div style="text-align:center; font-size:200%">Even more!</div>
