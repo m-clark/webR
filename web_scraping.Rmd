@@ -54,7 +54,7 @@ Just like in other programming languages, these parts of a webpage have their ow
 
 The <span class="emph">id</span> is another <span class="emph">attribute</span>, or way to note specific types of objects. Unlike classes, which might be used over and over within a page, ids are unique, and thus for web scraping, probably more useful when appropriate to the task.  Also, while elements can have multiple classes, they can have only one id.  Any particular element might also have different attributes that specify things like style, alignment, color, file source etc.
 
-The sad thing is that attributes are greatly underutilized in general.  For example, perhaps you found a page with several html tables of data, one for each year.  It would have been simple to add an `id = year` to each one, enabling you to grab just the specific year(s) of interest, but it'll be rare that you'd find a page that goes that far.  Part of this could be due to the fact that much content is auto-generated via WYSIWYG editors, but these are not very professional pages if so, which might cause concern for the data given such a source.  Take a look at the [open.fda.gov](https://open.fda.gov) site:
+The sad thing is that attributes are greatly underutilized in general.  For example, perhaps you found a page with several html tables of data, one for each year.  It would have been simple to add an `id = year` to each one, enabling you to grab just the specific year(s) of interest, but it'll be rare that you'd find a page that goes that far.  Part of this could be due to the fact that much content is auto-generated via WYSIWYG editors, but these are not very professional pages if so, which might cause concern for the data given such a source.  Take a look at the [open.fda.gov](https://open.fda.gov) site[^firebug]:
 
 <img src="img/openfda.png" style="display:block; margin: 0 auto;">
 
@@ -88,7 +88,9 @@ page = 'https://en.wikipedia.org/wiki/List_of_cities,_villages,_and_townships_in
 library(rvest)
 
 towns = read_html(page)
+
 str(towns)
+
 towns
 ```
 
@@ -100,23 +102,23 @@ html_nodes(towns, 'a') %>% head    # links
 html_nodes(towns, 'table')         # tables
 ```
 
-Perhaps now you are getting a sense of what we can possibly extract from this page. It turns out that what we want is a table element, and in particular, the one that is of class `wikitable sortable`.  This will make things very easy.  But what if we didn't know what the element was?  it turns out there are tools like [SelectorGadget](http://selectorgadget.com)[^firebug] that can be used to inspect the elements of any webpage.  SelectorGadget can be added as a browser extension, which would allow you to easily turn it on and off as needed.  The following depicts what the Michigan towns looks like when using SelectorGadget and selecting a link.
+Perhaps now you are getting a sense of what we can possibly extract from this page. It turns out that what we want is a table element, and in particular, the one that is of class `wikitable sortable`.  This will make things very easy.  But what if we didn't know what the element was?  it turns out browsers come with the ability to inspect the elements of any webpage, and even change them.  The following depicts what the Michigan towns looks like when using Chrome's built-in developer tools and selecting a link.
 
-<img src="img/selectorgadget.png" style="display:block; margin: 0 auto;">
+<img src="img/chrome_developer.png">
 
 It highlights everything else in the page that is of a similar type (i.e. other links), as well as provides the css/xml info that we would need to grab that particular item.
 
 As mentioned, we want the `wikitable sortable` class table, so lets grab that. The <span class="pack">rvest</span> package comes with the <span class="func">html_table</span> function, that will grab any table and attempt to put it into a data.frame object.  I only show the first couple because one of the tables comes out pretty messy at the R console.
 
 ```{r examine_table}
-str(html_table(towns)[1:3])
+str(html_table(towns, fill = TRUE)[1:3])
 ```
 
 We know which class object we want though, so we could have used <span class="func">html_nodes</span> to grab *only* that object and work with it.
 
 ```{r extract_inspect_table}
 html_nodes(towns, '.wikitable.sortable') %>% 
-  html_table() %>% 
+  html_table(fill = TRUE) %>% 
   .[[1]] %>% 
   head()
 ```
@@ -125,15 +127,16 @@ Here the `.` in `.wikitable.sortable` represents the class/subclass (use `#` for
 
 So let's put this all together.
 
-```{r wikitableGraph, cache=TRUE}
+```{r wikitableGraph}
 library(stringr)
+
 towns %>% 
-  html_table() %>% 
+  html_table(fill = TRUE) %>% 
   .[[2]] %>% 
   rename(Population = `2010 Population`) %>% 
   mutate(Population = strtoi(str_replace_all(Population, ',', '')),
-         Type = factor(Type)) %>% 
-  filter(!Type %in% c('unincorporated community', 'CDP')) %>% 
+         Type = factor(str_squish(str_trim(Type))),
+         Type = forcats::fct_collapse(Type, unincorporated = c('unincorporated community', 'unincorporated community and CDP', 'CDP'))) %>% 
   ggplot(aes(x=Population, fill=Type, color=Type)) +
   scale_x_log10() +
   geom_density(alpha=.2) +
@@ -149,7 +152,8 @@ I won't go into details about the rest of the code regarding data processing, as
 As an additional example let's get some data from [basketball-reference.com](http://www.basketball-reference.com/).  The following gets the totals table from the URL[^bref]. Issues include header rows after every 20^th^ row of data, and converting all but a few columns from character to numeric.
 
 ```{r scrapeBref}
-url = "http://www.basketball-reference.com/leagues/NBA_2016_totals.html"
+url = "http://www.basketball-reference.com/leagues/NBA_2018_totals.html"
+
 bball = read_html(url) %>% 
   html_node("#totals_stats") %>%                       # grab element with id 'total_stats'
   html_table() %>%                                     # the data
@@ -169,6 +173,7 @@ Images are fairly easy because they are simply files with specific extensions li
 
 ```{r scrapeImage}
 base_page = read_html('https://en.wikipedia.org/wiki/Main_Page')
+
 picofday_location = base_page %>%    # get the main page
   html_nodes('#mp-tfp') %>%          # extract the div with 'today's featured picture', i.e. tfp
   html_nodes('img') %>%              # extract the img
@@ -180,6 +185,7 @@ With location in hand we can now download the file, and even display it in R. Th
 
 ```{r download_show_image, fig.width=2, fig.height=3}
 download.file(url=paste0('https:', picofday_location), destfile='img/picofday.jpg', mode='wb')
+
 picofday = jpeg::readJPEG(source='img/picofday.jpg')
 
 df = data.frame(x=rnorm(1), y=rnorm(1))  # note that any random df will suffice
@@ -193,10 +199,10 @@ Note that an alternative approach that might work on some websites would be to e
 
 ## Issues
 
-As mentioned, the ease with which you will be able to scrape a website will depend a lot on how well the page/site is put together. Many are cookie-cutter templates designed with no regard to data availability whatsoever, others are just the result of amateurs that do not do web design for a living, and still others are just poorly designed.  In addition, some websites may have security or other server back end things to consider that require much of the content to not be made easily available, perhaps intentionally.
+As mentioned, the ease with which you will be able to scrape a website will depend a lot on how well the page/site is put together. Many are cookie-cutter templates designed with no regard to data availability whatsoever, others are just the result of amateurs (like me!) that do not do web design for a living, and still others are just poorly designed.  In addition, some websites may have security or other server back end things to consider that require much of the content to be less accessible, perhaps intentionally.
 
 
-On the other hand, other sites will make it as easy as a URL pointing to a csv file, or an API that is easily maneuverable.  The main thing is that you must plan ahead for it to either not be easy to get, and/or to be ready for heavy post-processing even when you get the bulk of what you want.  The goal should be to make the process automatic such that only a fundamental site or API change will cause you to have to change your code again.
+On the other hand, other sites will make it as easy as a URL pointing to a csv file, or an API that is easily maneuverable.  The main thing is that you must plan ahead for encountering difficulty, and/or to be ready for heavy post-processing even when you get the bulk of what you want.  The goal should be to make the process automatic such that only a fundamental site or API change will cause you to have to change your code again.
 
 
 
@@ -206,7 +212,7 @@ On the other hand, other sites will make it as easy as a URL pointing to a csv f
 
 [^otherwsnames]: Called by various names: web harvesting, data scraping (presumptuous), etc.
 
-[^webdesign]: Think about your R code, now remove the spaces, indent as irregularly as possible, do not comment anything, use reserved words for common names, don't name important parts of your site, reject any known coding style, and use default settings.  That would describe about 99% of the typical website design I come across.
+[^webdesign]: Think about your R code, now remove the spaces, indent as irregularly as possible, do not comment anything, use reserved words for common names, don't name important parts of your site, reject any known coding style, and use default settings.  That would describe much of the typical website design I come across, and the rest is automatically generated, so possibly not even intended to be human-readable.
 
 [^tagvelement]: There is subtle distinction between [tags versus elements](https://en.wikipedia.org/wiki/HTML_element#Elements_vs._tags), but which won't really matter to us.
 

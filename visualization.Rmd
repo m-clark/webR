@@ -30,6 +30,8 @@ iris %>%
   plot_ly(x=~Petal.Length, y=~Petal.Width, color=~Species)
 ```
 
+<br>
+
 By default the plot is interactive with hover-over information, but you can add a lot more too it (my own theme cleans up gridlines, zero reference line, etc.).
 
 One of the best things about <span class="pack">plotly</span> is it's ability to make a ggplot graphic interactive. The resulting visual may need further tweaking as there is not a one-to-one mapping from <span class="pack">ggplot2</span> to <span class="pack">plotly</span>, but it's otherwise a very useful tool.
@@ -197,7 +199,7 @@ shiny::runExample('01_hello')
 
 <img src="img/shinyHist.png" style="display:block; margin: 0 auto;">
 
-The shiny framework is very powerful in terms of what it can do, but realize you are basically creating a web app using a language that wasn't designed for general programming in that fashion and will require outside resources if you want to use it.  It is very likely that other approaches would be more efficient and notably lighter weight[^slowshiny], resulting in a better user experience, which is what your number one priority should be if you are constructing an interactive app.  That said, shiny can be a lot of fun, and useful for presentations too if running it from your own device.  See the [gallery](http://shiny.rstudio.com/gallery/) for demos and more.
+The shiny framework is very powerful in terms of what it can do, but realize you are basically creating a web app using a language that wasn't designed for general programming in that fashion, and which will require outside resources if you want to use it.  It is very likely that other approaches would be more efficient and notably lighter weight[^slowshiny], resulting in a better user experience, which is what your number one priority should be if you are constructing an interactive app.  That said, shiny can be a lot of fun, and useful for presentations too if running it from your own device.  See the [gallery](http://shiny.rstudio.com/gallery/) for demos and more.
 
 
 
@@ -209,13 +211,17 @@ Consider the following image.  The only R code necessary to start building a das
 
 <img src="img/flex_dashboard.png" style="display:block; margin: 0 auto;">
 
-As an example, I'd never used <span class="objclass">flex_dashboard</span> before and it only took part of an afternoon to get the data and produce the following dashboard that looks at tornados in the U.S. over time (click image to see the app). It's still demonstrates the slowness that can come with a shiny app, but it was relatively easy to put together.  All plots use <span class="pack">plotly.</span>
+As an example, I'd never used <span class="objclass">flex_dashboard</span> before and it only took part of an afternoon to get the data and produce the following dashboard that looks at tornadoes in the U.S. over time (click image to see the app). It's still demonstrates the slowness that can come with a shiny app, but it was relatively easy to put together.  All plots use <span class="pack">plotly.</span>
 
 <a href="https://micl.shinyapps.io/tornados/"><img src="img/tornado_flex.png" style="display:block; margin: 0 auto; width:50%"></a>
 
 
 
+<br>
+<br>
 
-[^sitevsapp]:  A lot of folks these days seem to confuse what a software application is, and what a website is, to the point that many actually call what is akin to a URL shortcut an 'app' (e.g. the Netflix app just takes you to netflix.com, i.e. while you may be able to find such a thing to download for your phone, this does not constitute a software application: <a href="https://www.netflix.com/"><img src="img/nficon2016.png" style="width:3%"></a>).  In general, software applications do not require the web, and a web app is basically a website that functions similar to a software application that might run on your desktop or other device. Shiny has many functions that essentially create the html, JavaScript etc. you would otherwise have written.  Whether you want to call the result an app is up to you, but using Shiny won't qualify you to call yourself a software developer.  This point is also made because nowadays Shiny is actually unnecessary to create interactive webpages/sites (e.g. this document does not utilize Shiny).  If all you want is some basic interactivity, you may be able to do that with the other packages noted.
+In short, there's a lot one can do in creating R visualizations for the web, and more tools are being developed regularly.  You'll have a lot at your disposal, so have some fun with it!
 
-[^slowshiny]: Shiny apps take a while to load and may be slowly implemented.
+[^sitevsapp]:  A lot of folks these days seem to confuse what a software application is, and what a website is, to the point that many actually call what is akin to a URL shortcut an 'app' (e.g. the Netflix app just takes you to netflix.com, i.e. while you may be able to find such a thing to download for your phone, this does not constitute a software application: <a href="https://www.netflix.com/"><img src="img/nficon2016.png" style="width:3%; display:inline"></a>).  In general, software applications do not require the web, and a web app is basically a website that functions similar to a software application that might run on your desktop or other device. Shiny has many functions that essentially create the html, JavaScript etc. you would otherwise have written.  Whether you want to call the result an 'app' is up to you, but using Shiny won't necessarily qualify you to call yourself a software developer.  This point is also made because nowadays Shiny is actually unnecessary to create interactive webpages/sites (e.g. this document does not utilize Shiny).  If all you want is some basic interactivity, you may be able to do that with the other packages noted.
+
+[^slowshiny]: Shiny apps may take a while to load and may be slowly implemented.

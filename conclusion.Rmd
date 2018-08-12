@@ -1,0 +1,9 @@
+# Conclusion {.unnumbered}
+
+As mentioned at the beginning of this document, do check the CRAN Task View for [Web Technologies](https://cran.r-project.org/web/views/WebTechnologies.html).  There's a lot more out there that allows you to use R with the web, and the capabilities increase all the time.  The purpose of this document was to merely give insight into some possibilities for how to use R to engage the web, with simple demonstrations or explanations of those approaches.  However, any discussed here can be taken further, and there is a great deal more to explore, so have some fun!
+<br><br><br>
+
+<!-- <img src="img/Internet_map.png" style="display:block; margin: 0 auto;"> -->
+<!-- <img src="img/the_internet2.gif" style="display:block; margin: 0 auto;"> -->
+<img src="img/Rlogo.png" style="display:block; margin: 0 auto;">
+

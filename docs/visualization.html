@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Engaging the Web with R</title>
+  <meta name="description" content="An introduction to using R for the web.">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Engaging the Web with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="An introduction to using R for the web." />
+  <meta name="github-repo" content="m-clark/webR" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Engaging the Web with R" />
+  
+  <meta name="twitter:description" content="An introduction to using R for the web." />
+  
+
+
+
+<meta name="date" content="2018-08-12">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="APIs.html">
+<link rel="next" href="publishing.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.2/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.8.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.39.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.39.2/plotly-latest.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.1/leaflet.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="book.css" type="text/css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class='before'><a href="./">Engaging the Web with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i>Introduction</a><ul>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#prerequisites"><i class="fa fa-check"></i>Prerequisites</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html"><i class="fa fa-check"></i>Web scraping</a><ul>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#direct-data-download"><i class="fa fa-check"></i>Direct data download</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#key-concepts"><i class="fa fa-check"></i>Key concepts</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#the-basic-approach"><i class="fa fa-check"></i>The basic approach</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#examples"><i class="fa fa-check"></i>Examples</a><ul>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#tables"><i class="fa fa-check"></i>Tables</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#text"><i class="fa fa-check"></i>Text</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#images"><i class="fa fa-check"></i>Images</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#issues"><i class="fa fa-check"></i>Issues</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html"><i class="fa fa-check"></i>APIs</a><ul>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#raw-example"><i class="fa fa-check"></i>Raw Example</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#r-packages"><i class="fa fa-check"></i>R packages</a><ul>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#new-york-times-article-search"><i class="fa fa-check"></i>New York Times Article Search</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#wikipedia-1"><i class="fa fa-check"></i>Wikipedia</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#qualtrics"><i class="fa fa-check"></i>Qualtrics</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#others"><i class="fa fa-check"></i>Others</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#issues-1"><i class="fa fa-check"></i>Issues</a><ul>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#documentation"><i class="fa fa-check"></i>Documentation</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#api-changes"><i class="fa fa-check"></i>API Changes</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#broken-api"><i class="fa fa-check"></i>Broken API</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#restrictions"><i class="fa fa-check"></i>Restrictions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i>Visualization</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#systems"><i class="fa fa-check"></i>Systems</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#plotly"><i class="fa fa-check"></i>plotly</a></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#rbokeh"><i class="fa fa-check"></i>rbokeh</a></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#others-1"><i class="fa fa-check"></i>Others</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#htmlwidgets"><i class="fa fa-check"></i>htmlwidgets</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#leaflet-example"><i class="fa fa-check"></i>Leaflet example</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#shiny"><i class="fa fa-check"></i>Shiny</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#server"><i class="fa fa-check"></i>Server</a></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#ui"><i class="fa fa-check"></i>UI</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#dashboards"><i class="fa fa-check"></i>Dashboards</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html"><i class="fa fa-check"></i>Publishing</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#publishing-languages"><i class="fa fa-check"></i>Publishing Languages</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#markdown"><i class="fa fa-check"></i>Markdown</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#r-markdown"><i class="fa fa-check"></i>R Markdown</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#html-css-etc."><i class="fa fa-check"></i>HTML, CSS etc.</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#latex"><i class="fa fa-check"></i>LaTeX</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#yaml"><i class="fa fa-check"></i>YAML</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#pandoc"><i class="fa fa-check"></i>Pandoc</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#summary"><i class="fa fa-check"></i>Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#document-formats"><i class="fa fa-check"></i>Document Formats</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#html"><i class="fa fa-check"></i>HTML</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#notebooks"><i class="fa fa-check"></i>Notebooks</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#print"><i class="fa fa-check"></i>Print</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#journals"><i class="fa fa-check"></i>Journals</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#presentations"><i class="fa fa-check"></i>Presentations</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#other"><i class="fa fa-check"></i>Other</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#customization"><i class="fa fa-check"></i>Customization</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#rpubs"><i class="fa fa-check"></i>Rpubs</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#more"><i class="fa fa-check"></i>More</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i>Conclusion</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li class='after'">
+   <a href="https://m-clark.github.io/">
+      <img src="img/mc_logo.png" style="width:25%; padding:0px 0; display:block; margin: 0 auto;" alt="MC logo">
+   </a>
+</li>
+<li class='after'">
+   <div style='text-align:center'>
+      <a href="https://github.com/m-clark/">
+         <i class="fab fa-github fa-2x" aria-hidden="true"></i>
+      </a>
+   </div>
+</li>
+<li class='after'">
+   <div style='text-align:center'>
+      <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+         <i class="fab fa-creative-commons fa-lg"></i>
+         <i class="fab fa-creative-commons-by fa-lg"></i>
+         <i class="fab fa-creative-commons-sa fa-lg"></i>
+      </a>
+   </div>
+</li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Engaging the Web with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="visualization" class="section level1">
+<h1>Visualization</h1>
+<p>For standard approaches, R already is one of the more powerful data visualization tools out there, to the point where the look of its graphics is being replicated across other platforms. However, R has come a long way very quickly with regard to interactive and web-based visualization, such that it is as easy to do an interactive, web-ready graph as it is the standard plot. The following provides an overview of tools to be aware of for web-based visualization in R.</p>
+<div id="systems" class="section level2">
+<h2>Systems</h2>
+<p>This section notes a couple packages which I will call visualization <em>systems</em>. For example, for static plots <span class="pack">ggplot2</span> and <span class="pack">lattice</span> are systems within which to produce visualizations. They have their own consistent style with which one may specify the details of a plot and are very flexible in what they can produce.</p>
+<p>In that sense I’ll note two interactive visualization systems, <span class="emph">Plotly</span> and <span class="emph">Bokeh</span>.</p>
+<div id="plotly" class="section level3">
+<h3>plotly</h3>
+<p>Plotly is a general visualization system with APIs for JavaScript, Python, Matlab, and of interest to us, R. It used to require an account, but now is used as any other package within R, and in this case the package is just called <span class="pack">plotly</span>. Like <span class="pack">ggplot2</span>, you start with a base and add layers via pipes.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">library</span>(plotly)</a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="kw">plot_ly</span>(<span class="dt">x=</span><span class="op">~</span>x, <span class="dt">y=</span><span class="op">~</span>y, <span class="dt">color=</span><span class="kw">factor</span>(g), <span class="dt">type=</span><span class="st">&#39;scatter&#39;</span>, <span class="dt">mode=</span><span class="st">&#39;markers&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="st">  </span><span class="co"># add_trace() %&gt;% </span></a>
+<a class="sourceLine" id="cb33-5" data-line-number="5"><span class="st">  </span><span class="kw">add_lines</span>(<span class="dt">y=</span>y, <span class="dt">line=</span><span class="kw">list</span>(<span class="dt">shape=</span><span class="st">&#39;spline&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="st">  </span>lazerhawk<span class="op">::</span><span class="kw">theme_plotly</span>()</a></code></pre></div>
+<div id="htmlwidget-3716362bf17722f082cd" style="width:75%;height:504px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3716362bf17722f082cd">{"x":{"visdat":{"12d703c7cb012":["function () ","plotlyVisDat"]},"cur_data":"12d703c7cb012","attrs":{"12d703c7cb012":{"x":{},"y":{},"mode":"markers","color":["0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"12d703c7cb012.1":{"x":{},"y":[0.140161339150907,1.09383668216585,-0.471647665233106,0.347419742081823,0.41602235263254,1.16932011724,-1.08144554029359,0.503643727650393,0.173588687236205,2.03997312431228,0.032102323225872,2.57120704378855,0.179263563809526,1.00621713644253,0.00132807229370518,2.68267162854857,0.4656468111527,2.27457991825697,0.816355722826421,0.950855312002195,0.131305001472977,1.44076960679021,0.651929779198334,2.05770405527813,1.31992455180728,1.71950017600904,-0.203765149729308,1.14801460775743,1.74031159429968,2.05160015338771,0.734327965878963,1.62174375663788,1.66146307319515,2.25936000326505,0.735184414211025,1.4247158441945,0.217828415781452,1.55925704217198,0.501224812322666,1.47622495830775,1.30625656436592,2.12262984329353,-0.381613846695947,1.62298035916081,0.971646200867511,1.81290375306525,0.780611798158651,2.77323184206208,1.33302788005461,2.48643356109252],"mode":"lines","color":["0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","1"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","line":{"shape":"spline"},"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"zeroline":false,"showgrid":false,"title":"x"},"yaxis":{"domain":[0,1],"automargin":true,"zeroline":false,"showgrid":false,"title":"y"},"plot_bgcolor":"transparent","paper_bgcolor":"transparent","hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":[{"name":"Collaborate","icon":{"width":1000,"ascent":500,"descent":-50,"path":"M487 375c7-10 9-23 5-36l-79-259c-3-12-11-23-22-31-11-8-22-12-35-12l-263 0c-15 0-29 5-43 15-13 10-23 23-28 37-5 13-5 25-1 37 0 0 0 3 1 7 1 5 1 8 1 11 0 2 0 4-1 6 0 3-1 5-1 6 1 2 2 4 3 6 1 2 2 4 4 6 2 3 4 5 5 7 5 7 9 16 13 26 4 10 7 19 9 26 0 2 0 5 0 9-1 4-1 6 0 8 0 2 2 5 4 8 3 3 5 5 5 7 4 6 8 15 12 26 4 11 7 19 7 26 1 1 0 4 0 9-1 4-1 7 0 8 1 2 3 5 6 8 4 4 6 6 6 7 4 5 8 13 13 24 4 11 7 20 7 28 1 1 0 4 0 7-1 3-1 6-1 7 0 2 1 4 3 6 1 1 3 4 5 6 2 3 3 5 5 6 1 2 3 5 4 9 2 3 3 7 5 10 1 3 2 6 4 10 2 4 4 7 6 9 2 3 4 5 7 7 3 2 7 3 11 3 3 0 8 0 13-1l0-1c7 2 12 2 14 2l218 0c14 0 25-5 32-16 8-10 10-23 6-37l-79-259c-7-22-13-37-20-43-7-7-19-10-37-10l-248 0c-5 0-9-2-11-5-2-3-2-7 0-12 4-13 18-20 41-20l264 0c5 0 10 2 16 5 5 3 8 6 10 11l85 282c2 5 2 10 2 17 7-3 13-7 17-13z m-304 0c-1-3-1-5 0-7 1-1 3-2 6-2l174 0c2 0 4 1 7 2 2 2 4 4 5 7l6 18c0 3 0 5-1 7-1 1-3 2-6 2l-173 0c-3 0-5-1-8-2-2-2-4-4-4-7z m-24-73c-1-3-1-5 0-7 2-2 3-2 6-2l174 0c2 0 5 0 7 2 3 2 4 4 5 7l6 18c1 2 0 5-1 6-1 2-3 3-5 3l-174 0c-3 0-5-1-7-3-3-1-4-4-5-6z"},"click":"function(gd) { \n        // is this being viewed in RStudio?\n        if (location.search == '?viewer_pane=1') {\n          alert('To learn about plotly for collaboration, visit:\\n https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html');\n        } else {\n          window.open('https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html', '_blank');\n        }\n      }"}],"cloud":false,"displayModeBar":false},"data":[{"x":[0,0.0408163265306122,0.0816326530612245,0.122448979591837,0.163265306122449,0.204081632653061,0.244897959183673,0.285714285714286,0.326530612244898,0.36734693877551,0.408163265306122,0.448979591836735,0.489795918367347,0.530612244897959,0.571428571428571,0.612244897959184,0.653061224489796,0.693877551020408,0.73469387755102,0.775510204081633,0.816326530612245,0.857142857142857,0.897959183673469,0.938775510204082,0.979591836734694],"y":[0.140161339150907,-0.471647665233106,0.41602235263254,-1.08144554029359,0.173588687236205,0.032102323225872,0.179263563809526,0.00132807229370518,0.4656468111527,0.816355722826421,0.131305001472977,0.651929779198334,1.31992455180728,-0.203765149729308,1.74031159429968,0.734327965878963,1.66146307319515,0.735184414211025,0.217828415781452,0.501224812322666,1.30625656436592,-0.381613846695947,0.971646200867511,0.780611798158651,1.33302788005461],"mode":"markers","type":"scatter","name":"0","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.0204081632653061,0.0612244897959184,0.102040816326531,0.142857142857143,0.183673469387755,0.224489795918367,0.26530612244898,0.306122448979592,0.346938775510204,0.387755102040816,0.428571428571429,0.469387755102041,0.510204081632653,0.551020408163265,0.591836734693878,0.63265306122449,0.673469387755102,0.714285714285714,0.755102040816326,0.795918367346939,0.836734693877551,0.877551020408163,0.918367346938775,0.959183673469388,1],"y":[1.09383668216585,0.347419742081823,1.16932011724,0.503643727650393,2.03997312431228,2.57120704378855,1.00621713644253,2.68267162854857,2.27457991825697,0.950855312002195,1.44076960679021,2.05770405527813,1.71950017600904,1.14801460775743,2.05160015338771,1.62174375663788,2.25936000326505,1.4247158441945,1.55925704217198,1.47622495830775,2.12262984329353,1.62298035916081,1.81290375306525,2.77323184206208,2.48643356109252],"mode":"markers","type":"scatter","name":"1","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.0408163265306122,0.0816326530612245,0.122448979591837,0.163265306122449,0.204081632653061,0.244897959183673,0.285714285714286,0.326530612244898,0.36734693877551,0.408163265306122,0.448979591836735,0.489795918367347,0.530612244897959,0.571428571428571,0.612244897959184,0.653061224489796,0.693877551020408,0.73469387755102,0.775510204081633,0.816326530612245,0.857142857142857,0.897959183673469,0.938775510204082,0.979591836734694],"y":[0.140161339150907,-0.471647665233106,0.41602235263254,-1.08144554029359,0.173588687236205,0.032102323225872,0.179263563809526,0.00132807229370518,0.4656468111527,0.816355722826421,0.131305001472977,0.651929779198334,1.31992455180728,-0.203765149729308,1.74031159429968,0.734327965878963,1.66146307319515,0.735184414211025,0.217828415781452,0.501224812322666,1.30625656436592,-0.381613846695947,0.971646200867511,0.780611798158651,1.33302788005461],"mode":"lines","type":"scatter","line":{"color":"rgba(102,194,165,1)","shape":"spline"},"name":"0","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.0204081632653061,0.0612244897959184,0.102040816326531,0.142857142857143,0.183673469387755,0.224489795918367,0.26530612244898,0.306122448979592,0.346938775510204,0.387755102040816,0.428571428571429,0.469387755102041,0.510204081632653,0.551020408163265,0.591836734693878,0.63265306122449,0.673469387755102,0.714285714285714,0.755102040816326,0.795918367346939,0.836734693877551,0.877551020408163,0.918367346938775,0.959183673469388,1],"y":[1.09383668216585,0.347419742081823,1.16932011724,0.503643727650393,2.03997312431228,2.57120704378855,1.00621713644253,2.68267162854857,2.27457991825697,0.950855312002195,1.44076960679021,2.05770405527813,1.71950017600904,1.14801460775743,2.05160015338771,1.62174375663788,2.25936000326505,1.4247158441945,1.55925704217198,1.47622495830775,2.12262984329353,1.62298035916081,1.81290375306525,2.77323184206208,2.48643356109252],"mode":"lines","type":"scatter","line":{"color":"rgba(141,160,203,1)","shape":"spline"},"name":"1","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"base_url":"https://plot.ly"},"evals":["config.modeBarButtonsToAdd.0.click"],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">iris <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="st">  </span><span class="kw">plot_ly</span>(<span class="dt">x=</span><span class="op">~</span>Petal.Length, <span class="dt">y=</span><span class="op">~</span>Petal.Width, <span class="dt">color=</span><span class="op">~</span>Species)</a></code></pre></div>
+<div id="htmlwidget-473d22840ea0cda35e4f" style="width:75%;height:504px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-473d22840ea0cda35e4f">{"x":{"visdat":{"12d70712dc8cc":["function () ","plotlyVisDat"]},"cur_data":"12d70712dc8cc","attrs":{"12d70712dc8cc":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Petal.Length"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Petal.Width"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":[{"name":"Collaborate","icon":{"width":1000,"ascent":500,"descent":-50,"path":"M487 375c7-10 9-23 5-36l-79-259c-3-12-11-23-22-31-11-8-22-12-35-12l-263 0c-15 0-29 5-43 15-13 10-23 23-28 37-5 13-5 25-1 37 0 0 0 3 1 7 1 5 1 8 1 11 0 2 0 4-1 6 0 3-1 5-1 6 1 2 2 4 3 6 1 2 2 4 4 6 2 3 4 5 5 7 5 7 9 16 13 26 4 10 7 19 9 26 0 2 0 5 0 9-1 4-1 6 0 8 0 2 2 5 4 8 3 3 5 5 5 7 4 6 8 15 12 26 4 11 7 19 7 26 1 1 0 4 0 9-1 4-1 7 0 8 1 2 3 5 6 8 4 4 6 6 6 7 4 5 8 13 13 24 4 11 7 20 7 28 1 1 0 4 0 7-1 3-1 6-1 7 0 2 1 4 3 6 1 1 3 4 5 6 2 3 3 5 5 6 1 2 3 5 4 9 2 3 3 7 5 10 1 3 2 6 4 10 2 4 4 7 6 9 2 3 4 5 7 7 3 2 7 3 11 3 3 0 8 0 13-1l0-1c7 2 12 2 14 2l218 0c14 0 25-5 32-16 8-10 10-23 6-37l-79-259c-7-22-13-37-20-43-7-7-19-10-37-10l-248 0c-5 0-9-2-11-5-2-3-2-7 0-12 4-13 18-20 41-20l264 0c5 0 10 2 16 5 5 3 8 6 10 11l85 282c2 5 2 10 2 17 7-3 13-7 17-13z m-304 0c-1-3-1-5 0-7 1-1 3-2 6-2l174 0c2 0 4 1 7 2 2 2 4 4 5 7l6 18c0 3 0 5-1 7-1 1-3 2-6 2l-173 0c-3 0-5-1-8-2-2-2-4-4-4-7z m-24-73c-1-3-1-5 0-7 2-2 3-2 6-2l174 0c2 0 5 0 7 2 3 2 4 4 5 7l6 18c1 2 0 5-1 6-1 2-3 3-5 3l-174 0c-3 0-5-1-7-3-3-1-4-4-5-6z"},"click":"function(gd) { \n        // is this being viewed in RStudio?\n        if (location.search == '?viewer_pane=1') {\n          alert('To learn about plotly for collaboration, visit:\\n https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html');\n        } else {\n          window.open('https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html', '_blank');\n        }\n      }"}],"cloud":false},"data":[{"x":[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5,1.5,1.6,1.4,1.1,1.2,1.5,1.3,1.4,1.7,1.5,1.7,1.5,1,1.7,1.9,1.6,1.6,1.5,1.4,1.6,1.6,1.5,1.5,1.4,1.5,1.2,1.3,1.4,1.3,1.5,1.3,1.3,1.3,1.6,1.9,1.4,1.6,1.4,1.5,1.4],"y":[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1,0.2,0.2,0.1,0.1,0.2,0.4,0.4,0.3,0.3,0.3,0.2,0.4,0.2,0.5,0.2,0.2,0.4,0.2,0.2,0.2,0.2,0.4,0.1,0.2,0.2,0.2,0.2,0.1,0.2,0.2,0.3,0.3,0.2,0.6,0.4,0.3,0.2,0.2,0.2,0.2],"type":"scatter","mode":"markers","name":"setosa","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[4.7,4.5,4.9,4,4.6,4.5,4.7,3.3,4.6,3.9,3.5,4.2,4,4.7,3.6,4.4,4.5,4.1,4.5,3.9,4.8,4,4.9,4.7,4.3,4.4,4.8,5,4.5,3.5,3.8,3.7,3.9,5.1,4.5,4.5,4.7,4.4,4.1,4,4.4,4.6,4,3.3,4.2,4.2,4.2,4.3,3,4.1],"y":[1.4,1.5,1.5,1.3,1.5,1.3,1.6,1,1.3,1.4,1,1.5,1,1.4,1.3,1.4,1.5,1,1.5,1.1,1.8,1.3,1.5,1.2,1.3,1.4,1.4,1.7,1.5,1,1.1,1,1.2,1.6,1.5,1.6,1.5,1.3,1.3,1.3,1.2,1.4,1.2,1,1.3,1.2,1.3,1.3,1.1,1.3],"type":"scatter","mode":"markers","name":"versicolor","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[6,5.1,5.9,5.6,5.8,6.6,4.5,6.3,5.8,6.1,5.1,5.3,5.5,5,5.1,5.3,5.5,6.7,6.9,5,5.7,4.9,6.7,4.9,5.7,6,4.8,4.9,5.6,5.8,6.1,6.4,5.6,5.1,5.6,6.1,5.6,5.5,4.8,5.4,5.6,5.1,5.1,5.9,5.7,5.2,5,5.2,5.4,5.1],"y":[2.5,1.9,2.1,1.8,2.2,2.1,1.7,1.8,1.8,2.5,2,1.9,2.1,2,2.4,2.3,1.8,2.2,2.3,1.5,2.3,2,2,1.8,2.1,1.8,1.8,1.8,2.1,1.6,1.9,2,2.2,1.5,1.4,2.3,2.4,1.8,1.8,2.1,2.4,2.3,1.9,2.3,2.5,2.3,1.9,2,2.3,1.8],"type":"scatter","mode":"markers","name":"virginica","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"base_url":"https://plot.ly"},"evals":["config.modeBarButtonsToAdd.0.click"],"jsHooks":[]}</script>
+<p><br></p>
+<p>By default the plot is interactive with hover-over information, but you can add a lot more too it (my own theme cleans up gridlines, zero reference line, etc.).</p>
+<p>One of the best things about <span class="pack">plotly</span> is it’s ability to make a ggplot graphic interactive. The resulting visual may need further tweaking as there is not a one-to-one mapping from <span class="pack">ggplot2</span> to <span class="pack">plotly</span>, but it’s otherwise a very useful tool.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">## ggplot(aes(x=Petal.Length, y=Petal.Width, color=Species), data=iris) +</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">##   geom_point()</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3">g =<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Petal.Length, <span class="dt">y=</span>Petal.Width, <span class="dt">color=</span>Species), <span class="dt">data=</span>iris) <span class="op">+</span></a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_point</span>()</a>
+<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="kw">ggplotly</span>(g)</a></code></pre></div>
+<div id="htmlwidget-8a9c90c61990227e6725" style="width:75%;height:504px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8a9c90c61990227e6725">{"x":{"data":[{"x":[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5,1.5,1.6,1.4,1.1,1.2,1.5,1.3,1.4,1.7,1.5,1.7,1.5,1,1.7,1.9,1.6,1.6,1.5,1.4,1.6,1.6,1.5,1.5,1.4,1.5,1.2,1.3,1.4,1.3,1.5,1.3,1.3,1.3,1.6,1.9,1.4,1.6,1.4,1.5,1.4],"y":[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1,0.2,0.2,0.1,0.1,0.2,0.4,0.4,0.3,0.3,0.3,0.2,0.4,0.2,0.5,0.2,0.2,0.4,0.2,0.2,0.2,0.2,0.4,0.1,0.2,0.2,0.2,0.2,0.1,0.2,0.2,0.3,0.3,0.2,0.6,0.4,0.3,0.2,0.2,0.2,0.2],"text":["Petal.Length: 1.4<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.4<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.3<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.5<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.4<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.7<br />Petal.Width: 0.4<br />Species: setosa","Petal.Length: 1.4<br />Petal.Width: 0.3<br />Species: setosa","Petal.Length: 1.5<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.4<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.5<br />Petal.Width: 0.1<br />Species: setosa","Petal.Length: 1.5<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.6<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.4<br />Petal.Width: 0.1<br />Species: setosa","Petal.Length: 1.1<br />Petal.Width: 0.1<br />Species: setosa","Petal.Length: 1.2<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.5<br />Petal.Width: 0.4<br />Species: setosa","Petal.Length: 1.3<br />Petal.Width: 0.4<br />Species: setosa","Petal.Length: 1.4<br />Petal.Width: 0.3<br />Species: setosa","Petal.Length: 1.7<br />Petal.Width: 0.3<br />Species: setosa","Petal.Length: 1.5<br />Petal.Width: 0.3<br />Species: setosa","Petal.Length: 1.7<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.5<br />Petal.Width: 0.4<br />Species: setosa","Petal.Length: 1.0<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.7<br />Petal.Width: 0.5<br />Species: setosa","Petal.Length: 1.9<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.6<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.6<br />Petal.Width: 0.4<br />Species: setosa","Petal.Length: 1.5<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.4<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.6<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.6<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.5<br />Petal.Width: 0.4<br />Species: setosa","Petal.Length: 1.5<br />Petal.Width: 0.1<br />Species: setosa","Petal.Length: 1.4<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.5<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.2<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.3<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.4<br />Petal.Width: 0.1<br />Species: setosa","Petal.Length: 1.3<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.5<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.3<br />Petal.Width: 0.3<br />Species: setosa","Petal.Length: 1.3<br />Petal.Width: 0.3<br />Species: setosa","Petal.Length: 1.3<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.6<br />Petal.Width: 0.6<br />Species: setosa","Petal.Length: 1.9<br />Petal.Width: 0.4<br />Species: setosa","Petal.Length: 1.4<br />Petal.Width: 0.3<br />Species: setosa","Petal.Length: 1.6<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.4<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.5<br />Petal.Width: 0.2<br />Species: setosa","Petal.Length: 1.4<br />Petal.Width: 0.2<br />Species: setosa"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"setosa","legendgroup":"setosa","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[4.7,4.5,4.9,4,4.6,4.5,4.7,3.3,4.6,3.9,3.5,4.2,4,4.7,3.6,4.4,4.5,4.1,4.5,3.9,4.8,4,4.9,4.7,4.3,4.4,4.8,5,4.5,3.5,3.8,3.7,3.9,5.1,4.5,4.5,4.7,4.4,4.1,4,4.4,4.6,4,3.3,4.2,4.2,4.2,4.3,3,4.1],"y":[1.4,1.5,1.5,1.3,1.5,1.3,1.6,1,1.3,1.4,1,1.5,1,1.4,1.3,1.4,1.5,1,1.5,1.1,1.8,1.3,1.5,1.2,1.3,1.4,1.4,1.7,1.5,1,1.1,1,1.2,1.6,1.5,1.6,1.5,1.3,1.3,1.3,1.2,1.4,1.2,1,1.3,1.2,1.3,1.3,1.1,1.3],"text":["Petal.Length: 4.7<br />Petal.Width: 1.4<br />Species: versicolor","Petal.Length: 4.5<br />Petal.Width: 1.5<br />Species: versicolor","Petal.Length: 4.9<br />Petal.Width: 1.5<br />Species: versicolor","Petal.Length: 4.0<br />Petal.Width: 1.3<br />Species: versicolor","Petal.Length: 4.6<br />Petal.Width: 1.5<br />Species: versicolor","Petal.Length: 4.5<br />Petal.Width: 1.3<br />Species: versicolor","Petal.Length: 4.7<br />Petal.Width: 1.6<br />Species: versicolor","Petal.Length: 3.3<br />Petal.Width: 1.0<br />Species: versicolor","Petal.Length: 4.6<br />Petal.Width: 1.3<br />Species: versicolor","Petal.Length: 3.9<br />Petal.Width: 1.4<br />Species: versicolor","Petal.Length: 3.5<br />Petal.Width: 1.0<br />Species: versicolor","Petal.Length: 4.2<br />Petal.Width: 1.5<br />Species: versicolor","Petal.Length: 4.0<br />Petal.Width: 1.0<br />Species: versicolor","Petal.Length: 4.7<br />Petal.Width: 1.4<br />Species: versicolor","Petal.Length: 3.6<br />Petal.Width: 1.3<br />Species: versicolor","Petal.Length: 4.4<br />Petal.Width: 1.4<br />Species: versicolor","Petal.Length: 4.5<br />Petal.Width: 1.5<br />Species: versicolor","Petal.Length: 4.1<br />Petal.Width: 1.0<br />Species: versicolor","Petal.Length: 4.5<br />Petal.Width: 1.5<br />Species: versicolor","Petal.Length: 3.9<br />Petal.Width: 1.1<br />Species: versicolor","Petal.Length: 4.8<br />Petal.Width: 1.8<br />Species: versicolor","Petal.Length: 4.0<br />Petal.Width: 1.3<br />Species: versicolor","Petal.Length: 4.9<br />Petal.Width: 1.5<br />Species: versicolor","Petal.Length: 4.7<br />Petal.Width: 1.2<br />Species: versicolor","Petal.Length: 4.3<br />Petal.Width: 1.3<br />Species: versicolor","Petal.Length: 4.4<br />Petal.Width: 1.4<br />Species: versicolor","Petal.Length: 4.8<br />Petal.Width: 1.4<br />Species: versicolor","Petal.Length: 5.0<br />Petal.Width: 1.7<br />Species: versicolor","Petal.Length: 4.5<br />Petal.Width: 1.5<br />Species: versicolor","Petal.Length: 3.5<br />Petal.Width: 1.0<br />Species: versicolor","Petal.Length: 3.8<br />Petal.Width: 1.1<br />Species: versicolor","Petal.Length: 3.7<br />Petal.Width: 1.0<br />Species: versicolor","Petal.Length: 3.9<br />Petal.Width: 1.2<br />Species: versicolor","Petal.Length: 5.1<br />Petal.Width: 1.6<br />Species: versicolor","Petal.Length: 4.5<br />Petal.Width: 1.5<br />Species: versicolor","Petal.Length: 4.5<br />Petal.Width: 1.6<br />Species: versicolor","Petal.Length: 4.7<br />Petal.Width: 1.5<br />Species: versicolor","Petal.Length: 4.4<br />Petal.Width: 1.3<br />Species: versicolor","Petal.Length: 4.1<br />Petal.Width: 1.3<br />Species: versicolor","Petal.Length: 4.0<br />Petal.Width: 1.3<br />Species: versicolor","Petal.Length: 4.4<br />Petal.Width: 1.2<br />Species: versicolor","Petal.Length: 4.6<br />Petal.Width: 1.4<br />Species: versicolor","Petal.Length: 4.0<br />Petal.Width: 1.2<br />Species: versicolor","Petal.Length: 3.3<br />Petal.Width: 1.0<br />Species: versicolor","Petal.Length: 4.2<br />Petal.Width: 1.3<br />Species: versicolor","Petal.Length: 4.2<br />Petal.Width: 1.2<br />Species: versicolor","Petal.Length: 4.2<br />Petal.Width: 1.3<br />Species: versicolor","Petal.Length: 4.3<br />Petal.Width: 1.3<br />Species: versicolor","Petal.Length: 3.0<br />Petal.Width: 1.1<br />Species: versicolor","Petal.Length: 4.1<br />Petal.Width: 1.3<br />Species: versicolor"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,186,56,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,186,56,1)"}},"hoveron":"points","name":"versicolor","legendgroup":"versicolor","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[6,5.1,5.9,5.6,5.8,6.6,4.5,6.3,5.8,6.1,5.1,5.3,5.5,5,5.1,5.3,5.5,6.7,6.9,5,5.7,4.9,6.7,4.9,5.7,6,4.8,4.9,5.6,5.8,6.1,6.4,5.6,5.1,5.6,6.1,5.6,5.5,4.8,5.4,5.6,5.1,5.1,5.9,5.7,5.2,5,5.2,5.4,5.1],"y":[2.5,1.9,2.1,1.8,2.2,2.1,1.7,1.8,1.8,2.5,2,1.9,2.1,2,2.4,2.3,1.8,2.2,2.3,1.5,2.3,2,2,1.8,2.1,1.8,1.8,1.8,2.1,1.6,1.9,2,2.2,1.5,1.4,2.3,2.4,1.8,1.8,2.1,2.4,2.3,1.9,2.3,2.5,2.3,1.9,2,2.3,1.8],"text":["Petal.Length: 6.0<br />Petal.Width: 2.5<br />Species: virginica","Petal.Length: 5.1<br />Petal.Width: 1.9<br />Species: virginica","Petal.Length: 5.9<br />Petal.Width: 2.1<br />Species: virginica","Petal.Length: 5.6<br />Petal.Width: 1.8<br />Species: virginica","Petal.Length: 5.8<br />Petal.Width: 2.2<br />Species: virginica","Petal.Length: 6.6<br />Petal.Width: 2.1<br />Species: virginica","Petal.Length: 4.5<br />Petal.Width: 1.7<br />Species: virginica","Petal.Length: 6.3<br />Petal.Width: 1.8<br />Species: virginica","Petal.Length: 5.8<br />Petal.Width: 1.8<br />Species: virginica","Petal.Length: 6.1<br />Petal.Width: 2.5<br />Species: virginica","Petal.Length: 5.1<br />Petal.Width: 2.0<br />Species: virginica","Petal.Length: 5.3<br />Petal.Width: 1.9<br />Species: virginica","Petal.Length: 5.5<br />Petal.Width: 2.1<br />Species: virginica","Petal.Length: 5.0<br />Petal.Width: 2.0<br />Species: virginica","Petal.Length: 5.1<br />Petal.Width: 2.4<br />Species: virginica","Petal.Length: 5.3<br />Petal.Width: 2.3<br />Species: virginica","Petal.Length: 5.5<br />Petal.Width: 1.8<br />Species: virginica","Petal.Length: 6.7<br />Petal.Width: 2.2<br />Species: virginica","Petal.Length: 6.9<br />Petal.Width: 2.3<br />Species: virginica","Petal.Length: 5.0<br />Petal.Width: 1.5<br />Species: virginica","Petal.Length: 5.7<br />Petal.Width: 2.3<br />Species: virginica","Petal.Length: 4.9<br />Petal.Width: 2.0<br />Species: virginica","Petal.Length: 6.7<br />Petal.Width: 2.0<br />Species: virginica","Petal.Length: 4.9<br />Petal.Width: 1.8<br />Species: virginica","Petal.Length: 5.7<br />Petal.Width: 2.1<br />Species: virginica","Petal.Length: 6.0<br />Petal.Width: 1.8<br />Species: virginica","Petal.Length: 4.8<br />Petal.Width: 1.8<br />Species: virginica","Petal.Length: 4.9<br />Petal.Width: 1.8<br />Species: virginica","Petal.Length: 5.6<br />Petal.Width: 2.1<br />Species: virginica","Petal.Length: 5.8<br />Petal.Width: 1.6<br />Species: virginica","Petal.Length: 6.1<br />Petal.Width: 1.9<br />Species: virginica","Petal.Length: 6.4<br />Petal.Width: 2.0<br />Species: virginica","Petal.Length: 5.6<br />Petal.Width: 2.2<br />Species: virginica","Petal.Length: 5.1<br />Petal.Width: 1.5<br />Species: virginica","Petal.Length: 5.6<br />Petal.Width: 1.4<br />Species: virginica","Petal.Length: 6.1<br />Petal.Width: 2.3<br />Species: virginica","Petal.Length: 5.6<br />Petal.Width: 2.4<br />Species: virginica","Petal.Length: 5.5<br />Petal.Width: 1.8<br />Species: virginica","Petal.Length: 4.8<br />Petal.Width: 1.8<br />Species: virginica","Petal.Length: 5.4<br />Petal.Width: 2.1<br />Species: virginica","Petal.Length: 5.6<br />Petal.Width: 2.4<br />Species: virginica","Petal.Length: 5.1<br />Petal.Width: 2.3<br />Species: virginica","Petal.Length: 5.1<br />Petal.Width: 1.9<br />Species: virginica","Petal.Length: 5.9<br />Petal.Width: 2.3<br />Species: virginica","Petal.Length: 5.7<br />Petal.Width: 2.5<br />Species: virginica","Petal.Length: 5.2<br />Petal.Width: 2.3<br />Species: virginica","Petal.Length: 5.0<br />Petal.Width: 1.9<br />Species: virginica","Petal.Length: 5.2<br />Petal.Width: 2.0<br />Species: virginica","Petal.Length: 5.4<br />Petal.Width: 2.3<br />Species: virginica","Petal.Length: 5.1<br />Petal.Width: 1.8<br />Species: virginica"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(97,156,255,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(97,156,255,1)"}},"hoveron":"points","name":"virginica","legendgroup":"virginica","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":25.7412480974125,"r":7.30593607305936,"b":39.6955859969559,"l":43.1050228310502},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.705,7.195],"tickmode":"array","ticktext":["2","4","6"],"tickvals":[2,4,6],"categoryorder":"array","categoryarray":["2","4","6"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"Petal.Length","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.02,2.62],"tickmode":"array","ticktext":["0.0","0.5","1.0","1.5","2.0","2.5"],"tickvals":[0,0.5,1,1.5,2,2.5],"categoryorder":"array","categoryarray":["0.0","0.5","1.0","1.5","2.0","2.5"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":"Petal.Width","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.917510311211099},"annotations":[{"text":"Species","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":[{"name":"Collaborate","icon":{"width":1000,"ascent":500,"descent":-50,"path":"M487 375c7-10 9-23 5-36l-79-259c-3-12-11-23-22-31-11-8-22-12-35-12l-263 0c-15 0-29 5-43 15-13 10-23 23-28 37-5 13-5 25-1 37 0 0 0 3 1 7 1 5 1 8 1 11 0 2 0 4-1 6 0 3-1 5-1 6 1 2 2 4 3 6 1 2 2 4 4 6 2 3 4 5 5 7 5 7 9 16 13 26 4 10 7 19 9 26 0 2 0 5 0 9-1 4-1 6 0 8 0 2 2 5 4 8 3 3 5 5 5 7 4 6 8 15 12 26 4 11 7 19 7 26 1 1 0 4 0 9-1 4-1 7 0 8 1 2 3 5 6 8 4 4 6 6 6 7 4 5 8 13 13 24 4 11 7 20 7 28 1 1 0 4 0 7-1 3-1 6-1 7 0 2 1 4 3 6 1 1 3 4 5 6 2 3 3 5 5 6 1 2 3 5 4 9 2 3 3 7 5 10 1 3 2 6 4 10 2 4 4 7 6 9 2 3 4 5 7 7 3 2 7 3 11 3 3 0 8 0 13-1l0-1c7 2 12 2 14 2l218 0c14 0 25-5 32-16 8-10 10-23 6-37l-79-259c-7-22-13-37-20-43-7-7-19-10-37-10l-248 0c-5 0-9-2-11-5-2-3-2-7 0-12 4-13 18-20 41-20l264 0c5 0 10 2 16 5 5 3 8 6 10 11l85 282c2 5 2 10 2 17 7-3 13-7 17-13z m-304 0c-1-3-1-5 0-7 1-1 3-2 6-2l174 0c2 0 4 1 7 2 2 2 4 4 5 7l6 18c0 3 0 5-1 7-1 1-3 2-6 2l-173 0c-3 0-5-1-8-2-2-2-4-4-4-7z m-24-73c-1-3-1-5 0-7 2-2 3-2 6-2l174 0c2 0 5 0 7 2 3 2 4 4 5 7l6 18c1 2 0 5-1 6-1 2-3 3-5 3l-174 0c-3 0-5-1-7-3-3-1-4-4-5-6z"},"click":"function(gd) { \n        // is this being viewed in RStudio?\n        if (location.search == '?viewer_pane=1') {\n          alert('To learn about plotly for collaboration, visit:\\n https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html');\n        } else {\n          window.open('https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html', '_blank');\n        }\n      }"}],"cloud":false},"source":"A","attrs":{"12d701d51a3a1":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"12d701d51a3a1","visdat":{"12d701d51a3a1":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"base_url":"https://plot.ly"},"evals":["config.modeBarButtonsToAdd.0.click"],"jsHooks":[]}</script>
+<p>Unfortunately the <a href="https://plot.ly/r/">documentation</a> for <span class="pack">plotly</span> is very poor in my opinion. Every page on the website requires loading images that still take time even on very fast connections, there is so much unused whitespace that it can be difficult to tell which part of the functionality you’re reading about, examples are not consistent from language to language even for things that should not require different demonstrations, there are almost no comments explaining the code, etc. In short it can be frustrating to learn, and often you may have to go to the Python or JavaScript examples to get more detail than the R example provides. And of course, there is always <a href="http://stackoverflow.com/questions/tagged/plotly">SO</a>.</p>
+</div>
+<div id="rbokeh" class="section level3">
+<h3>rbokeh</h3>
+<p><a href="http://bokeh.pydata.org/en/latest/">Bokeh</a> is a Python interactive visualization library, and <span class="pack">rbokeh</span> is an attempt to port it to the R world. It works very similarly to <span class="pack">plotly</span> and other packages, and for easy comparison I iterate the iris example from above. The <span class="func">figure</span> function serves to produce the base of the plot, with other elements added as layers (<code>ly_*</code>) via pipes. It doesn’t appear to mesh well with <span class="pack">bookdown</span> yet, so I simply show the image you’d see in your RStudio viewer.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">library</span>(rbokeh)</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">iris <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb36-3" data-line-number="3"><span class="st">  </span><span class="kw">figure</span>(<span class="dt">width=</span><span class="dv">500</span>, <span class="dt">height=</span><span class="dv">500</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb36-4" data-line-number="4"><span class="st">  </span><span class="kw">ly_points</span>(Petal.Length, Petal.Width, <span class="dt">data =</span> iris,</a>
+<a class="sourceLine" id="cb36-5" data-line-number="5">    <span class="dt">color =</span> Species, <span class="dt">glyph =</span> Species,</a>
+<a class="sourceLine" id="cb36-6" data-line-number="6">    <span class="dt">hover =</span> <span class="kw">list</span>(Petal.Length, Petal.Width))</a></code></pre></div>
+<p><img src="img/rbokeh.png" style="display:block; margin: 0 auto;"></p>
+<p>More on <span class="pack">rbokeh</span> can be found <a href="http://hafen.github.io/rbokeh/">here</a>.</p>
+</div>
+<div id="others-1" class="section level3">
+<h3>Others</h3>
+<p>I’ll note that <span class="pack">ggvis</span> was once considered to be the successor to <span class="pack">ggplot2</span>, providing all the same stuff but specifically to add interactivity and web-based visualization. Development has stalled, probably due to the fact that things like Plotly and Bokeh attempt the same thing, but are used in other programming languages as well, and may have more development behind them. I do not recommend spending any time learning <span class="pack">ggvis</span> until development picks back up, and even then, <span class="pack">plotly</span> and <span class="pack">rbokeh</span> will likely be more developed and still have the cross-language advantage for a time.</p>
+</div>
+</div>
+<div id="htmlwidgets" class="section level2">
+<h2>htmlwidgets</h2>
+<p><img src="img/htmlwidgets.png" style="display:block; margin: 0 auto; width:50%" ></p>
+<p>Many newer visualization packages take advantage of <span class="emph">JavaScript</span> for graphical web-based display, as well as the piping approach to add layers of visual information to a plot. <span class="pack">htmlwidgets</span> is a package that makes it easy to create JavaScript visualizations, similar to what you see everywhere on the web. The packages using it typically are pipe-oriented (<code>%&gt;%</code>) and specifically produce interactive plots, and include <span class="pack">plotly</span> and <span class="pack">rbokeh</span>.</p>
+<div id="leaflet-example" class="section level3">
+<h3>Leaflet example</h3>
+<p>The following example utilizes the <span class="pack">leaflet</span> package. Aside from the icons, you can create this same interactive graph from essentially nothing. As with most graphing approaches in R, we start with a base, which may or may not contain additional layout or other information. From there we add subsequent layers of information/visuals until the final goal is reached. The final product is an interactive map with popups when the icons are clicked.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">Rlogo =<span class="st"> </span><span class="kw">file.path</span>(<span class="kw">R.home</span>(<span class="st">&#39;doc&#39;</span>), <span class="st">&#39;html&#39;</span>, <span class="st">&#39;logo.jpg&#39;</span>)</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb37-3" data-line-number="3">points =<span class="st"> </span><span class="kw">cbind</span>(<span class="dt">lon=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">83.738233</span>,<span class="op">-</span><span class="fl">83.7582789</span>), <span class="dt">lat=</span><span class="kw">c</span>(<span class="fl">42.280799</span>, <span class="fl">42.2668577</span>)) <span class="co"># latitude and longitude locations</span></a>
+<a class="sourceLine" id="cb37-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb37-5" data-line-number="5"><span class="kw">library</span>(leaflet)</a>
+<a class="sourceLine" id="cb37-6" data-line-number="6"><span class="kw">leaflet</span>() <span class="op">%&gt;%</span><span class="st">                                                           </span><span class="co"># base plot nothing to see</span></a>
+<a class="sourceLine" id="cb37-7" data-line-number="7"><span class="st">  </span><span class="kw">addTiles</span>() <span class="op">%&gt;%</span><span class="st">                                                        </span><span class="co"># base plot, the whole world</span></a>
+<a class="sourceLine" id="cb37-8" data-line-number="8"><span class="st">  </span><span class="kw">setView</span>(<span class="kw">mean</span>(points[,<span class="dv">1</span>]), <span class="kw">mean</span>(points[,<span class="dv">2</span>]), <span class="dt">zoom =</span> <span class="dv">14</span>) <span class="op">%&gt;%</span><span class="st">            </span><span class="co"># set location</span></a>
+<a class="sourceLine" id="cb37-9" data-line-number="9"><span class="st">  </span><span class="kw">addMarkers</span>(points[,<span class="dv">1</span>], points[,<span class="dv">2</span>],                                    <span class="co"># add points etc.</span></a>
+<a class="sourceLine" id="cb37-10" data-line-number="10">             <span class="dt">icon=</span><span class="kw">list</span>(<span class="dt">iconUrl=</span><span class="kw">c</span>(<span class="st">&#39;../img/Rlogo.png&#39;</span>, <span class="st">&#39;img/UM.png&#39;</span>),</a>
+<a class="sourceLine" id="cb37-11" data-line-number="11">                       <span class="dt">iconSize =</span> <span class="kw">c</span>(<span class="dv">75</span>, <span class="dv">75</span>)),</a>
+<a class="sourceLine" id="cb37-12" data-line-number="12">             <span class="dt">popup =</span> <span class="kw">c</span>(<span class="st">&#39;CSCAR&#39;</span>, <span class="st">&#39;Big House&#39;</span>))</a></code></pre></div>
+<div id="htmlwidget-098bcf973331e8e1da80" style="width:75%;height:504px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-098bcf973331e8e1da80">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[[42.280799,42.2668577],[-83.738233,-83.7582789],{"iconUrl":{"data":["../img/Rlogo.png","data:image/png;base64,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"],"index":[0,1]},"iconSize":[[75,75]]},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["CSCAR","Big House"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"setView":[[42.27382835,-83.74825595],14,[]],"limits":{"lat":[42.2668577,42.280799],"lng":[-83.7582789,-83.738233]}},"evals":[],"jsHooks":[]}</script>
+<p>See the <a href="http://www.htmlwidgets.org/">htmlwidgets website</a> for more examples and other packages.</p>
+</div>
+</div>
+<div id="shiny" class="section level2">
+<h2>Shiny</h2>
+<p><span class="emph">Shiny</span> is a framework within which to use R to build interactive web-based applications. Essentially you can create a website<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a> that allows interactive data creation, analysis and visualization. While you can use it easily enough on your own machine, it will not work for the web unless you have access to a an actual machine that can serve as the Shiny server. <a href="http://www.shinyapps.io/">shinyapps.io</a> allows you to create 5 apps for free, with the possibility to pay for more.</p>
+<div id="server" class="section level3">
+<h3>Server</h3>
+<p>You write two parts of code to use Shiny, and neither is in a fashion in which one typically uses R. The <span class="emph">server</span> determines how inputs will produce outputs for the application. It actually may have some more or less standard R code, as one extracts parts of data, produces plots etc. However, most of it will be wrapped as an <span class="emph">expression</span> within another R function, which itself is wrapped in a main function called <span class="func">shinyServer</span>.</p>
+<p>The following comes from one of the Shiny tutorials and demonstrates the server setup. Note that you can define the server and UI as separate R files that are then called by the <span class="func">runApp</span> function.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">library</span>(shiny)</a>
+<a class="sourceLine" id="cb38-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="co"># Define server logic required to draw a histogram</span></a>
+<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="kw">shinyServer</span>(<span class="cf">function</span>(input, output) {</a>
+<a class="sourceLine" id="cb38-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb38-6" data-line-number="6">  <span class="co"># Expression that generates a histogram. The expression is</span></a>
+<a class="sourceLine" id="cb38-7" data-line-number="7">  <span class="co"># wrapped in a call to renderPlot to indicate that:</span></a>
+<a class="sourceLine" id="cb38-8" data-line-number="8">  <span class="co">#</span></a>
+<a class="sourceLine" id="cb38-9" data-line-number="9">  <span class="co">#  1) It is &quot;reactive&quot; and therefore should be automatically</span></a>
+<a class="sourceLine" id="cb38-10" data-line-number="10">  <span class="co">#     re-executed when inputs change</span></a>
+<a class="sourceLine" id="cb38-11" data-line-number="11">  <span class="co">#  2) Its output type is a plot</span></a>
+<a class="sourceLine" id="cb38-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb38-13" data-line-number="13">  output<span class="op">$</span>distPlot &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({</a>
+<a class="sourceLine" id="cb38-14" data-line-number="14">    x    &lt;-<span class="st"> </span>faithful[, <span class="dv">2</span>]  <span class="co"># Old Faithful Geyser data</span></a>
+<a class="sourceLine" id="cb38-15" data-line-number="15">    bins &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">min</span>(x), <span class="kw">max</span>(x), <span class="dt">length.out =</span> input<span class="op">$</span>bins <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb38-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb38-17" data-line-number="17">    <span class="co"># draw the histogram with the specified number of bins</span></a>
+<a class="sourceLine" id="cb38-18" data-line-number="18">    <span class="kw">hist</span>(x, <span class="dt">breaks =</span> bins, <span class="dt">col =</span> <span class="st">&#39;darkgray&#39;</span>, <span class="dt">border =</span> <span class="st">&#39;white&#39;</span>)</a>
+<a class="sourceLine" id="cb38-19" data-line-number="19">  })</a>
+<a class="sourceLine" id="cb38-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb38-21" data-line-number="21">})</a></code></pre></div>
+</div>
+<div id="ui" class="section level3">
+<h3>UI</h3>
+<p>The <span class="emph">UI</span> stands for user interface and defines how someone will interact with the inputs and the look of the page. This is where you essentially create the webpage where the user can adjust settings or other aspects which might then change an analysis, visualization or whatever. This is also where you will likely find more of the R code used in a fashion unlike your normal usage. And I hope you like parentheses.</p>
+<p>In the following the <span class="func">shinyUI</span> function, like the <span class="func">shinyServer</span> function before, wraps the rest of the code. Additional functions are used to create sidebars, interactive inputs, titles etc.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="co"># Define UI for application that draws a histogram</span></a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="kw">shinyUI</span>(<span class="kw">fluidPage</span>(</a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb39-4" data-line-number="4">  <span class="co"># Application title</span></a>
+<a class="sourceLine" id="cb39-5" data-line-number="5">  <span class="kw">titlePanel</span>(<span class="st">&quot;Hello Shiny!&quot;</span>),</a>
+<a class="sourceLine" id="cb39-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb39-7" data-line-number="7">  <span class="co"># Sidebar with a slider input for the number of bins</span></a>
+<a class="sourceLine" id="cb39-8" data-line-number="8">  <span class="kw">sidebarLayout</span>(</a>
+<a class="sourceLine" id="cb39-9" data-line-number="9">    <span class="kw">sidebarPanel</span>(</a>
+<a class="sourceLine" id="cb39-10" data-line-number="10">      <span class="kw">sliderInput</span>(<span class="st">&quot;bins&quot;</span>,</a>
+<a class="sourceLine" id="cb39-11" data-line-number="11">                  <span class="st">&quot;Number of bins:&quot;</span>,</a>
+<a class="sourceLine" id="cb39-12" data-line-number="12">                  <span class="dt">min =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb39-13" data-line-number="13">                  <span class="dt">max =</span> <span class="dv">50</span>,</a>
+<a class="sourceLine" id="cb39-14" data-line-number="14">                  <span class="dt">value =</span> <span class="dv">30</span>)</a>
+<a class="sourceLine" id="cb39-15" data-line-number="15">    ),</a>
+<a class="sourceLine" id="cb39-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb39-17" data-line-number="17">    <span class="co"># Show a plot of the generated distribution</span></a>
+<a class="sourceLine" id="cb39-18" data-line-number="18">    <span class="kw">mainPanel</span>(</a>
+<a class="sourceLine" id="cb39-19" data-line-number="19">      <span class="kw">plotOutput</span>(<span class="st">&quot;distPlot&quot;</span>)</a>
+<a class="sourceLine" id="cb39-20" data-line-number="20">    )</a>
+<a class="sourceLine" id="cb39-21" data-line-number="21">  )</a>
+<a class="sourceLine" id="cb39-22" data-line-number="22">))</a></code></pre></div>
+<p>To see the app in action, simply install the <span class="pack">shiny</span> package and run the following code:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">shiny<span class="op">::</span><span class="kw">runExample</span>(<span class="st">&#39;01_hello&#39;</span>)</a></code></pre></div>
+<p><img src="img/shinyhist.png" style="display:block; margin: 0 auto;"></p>
+<p>The shiny framework is very powerful in terms of what it can do, but realize you are basically creating a web app using a language that wasn’t designed for general programming in that fashion, and which will require outside resources if you want to use it. It is very likely that other approaches would be more efficient and notably lighter weight<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>, resulting in a better user experience, which is what your number one priority should be if you are constructing an interactive app. That said, shiny can be a lot of fun, and useful for presentations too if running it from your own device. See the <a href="http://shiny.rstudio.com/gallery/">gallery</a> for demos and more.</p>
+</div>
+</div>
+<div id="dashboards" class="section level2">
+<h2>Dashboards</h2>
+<p>The <span class="objclass">flex_dashboard</span> output format allows one to quickly create a dashboard type webpage complete with whatever interactivity you may want. In a sense it comes off as a Shiny shortcut, enabling you to create a webpage quickly and easily by letting the default mode do more of the work behind the scenes.</p>
+<p>Consider the following image. The only R code necessary to start building a dashboard with the layout on the right is not even seen, it’s just part of the underlying markdown that comes with it. Whatever you put in the R chunks will show up in the corresponding chart position.</p>
+<p><img src="img/flex_dashboard.png" style="display:block; margin: 0 auto;"></p>
+<p>As an example, I’d never used <span class="objclass">flex_dashboard</span> before and it only took part of an afternoon to get the data and produce the following dashboard that looks at tornadoes in the U.S. over time (click image to see the app). It’s still demonstrates the slowness that can come with a shiny app, but it was relatively easy to put together. All plots use <span class="pack">plotly.</span></p>
+<p><a href="https://micl.shinyapps.io/tornados/"><img src="img/tornado_flex.png" style="display:block; margin: 0 auto; width:50%"></a></p>
+<p><br>
+<br></p>
+<p>In short, there’s a lot one can do in creating R visualizations for the web, and more tools are being developed regularly. You’ll have a lot at your disposal, so have some fun with it!</p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="14">
+<li id="fn14"><p>A lot of folks these days seem to confuse what a software application is, and what a website is, to the point that many actually call what is akin to a URL shortcut an ‘app’ (e.g. the Netflix app just takes you to netflix.com, i.e. while you may be able to find such a thing to download for your phone, this does not constitute a software application: <a href="https://www.netflix.com/"><img src="img/nficon2016.png" style="width:3%; display:inline"></a>). In general, software applications do not require the web, and a web app is basically a website that functions similar to a software application that might run on your desktop or other device. Shiny has many functions that essentially create the html, JavaScript etc. you would otherwise have written. Whether you want to call the result an ‘app’ is up to you, but using Shiny won’t necessarily qualify you to call yourself a software developer. This point is also made because nowadays Shiny is actually unnecessary to create interactive webpages/sites (e.g. this document does not utilize Shiny). If all you want is some basic interactivity, you may be able to do that with the other packages noted.<a href="visualization.html#fnref14" class="footnote-back">↩</a></p></li>
+<li id="fn15"><p>Shiny apps may take a while to load and may be slowly implemented.<a href="visualization.html#fnref15" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="APIs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="publishing.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["twitter", "facebook", "google", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"download": null,
+"toc": {
+"collapse": "section",
+"depth": 2,
+"scroll_highlight": true
+},
+"df_print": "kable",
+"highlight": "pygments",
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

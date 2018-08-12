@@ -14,6 +14,7 @@ The publishing capabilities in R are phenomenal, and keep expanding all the time
 
 <img src="img/Markdown-mark.svg" style="display:block; margin: 0 auto; width:20%">
 
+<br>
 
 [Markdown](http://daringfireball.net/projects/markdown/) serves as the basis for much of the approach.  Markdown provides an easy way to create html products without coding any raw html.  It is extremely limited in this regard, but for most text it's all you need.  Despite it's utility, there is no standard for markdown and it hasn't been developed in years. Thus there are many flavors of markdown which do continue to be developed, of which <span class="emph">R Markdown</span> is one.
 
@@ -83,9 +84,9 @@ The <span class="func">html_document</span> is the default output for R Markdown
 
 <img src="img/notebook_example.png" style="display:block; margin: 0 auto; width:50%">
 
-I've been using <span class="emph">notebooks</span> since they were first advertised as part of an RStudio preview release.  However, it is still not clear to me what their role is[^phablet], other than to allow your output to reside in your R markdown document rather than the console, something typically not desirable (at least with how I use R).  I guess it's useful if you want to share the script/document and let someone else play with the code, but technically they could do that with an R Markdown document anyway, or a basic R script for that matter.  Having the output below or to the side of the document rather than a few inches from that point is not something I can get overly excited about, and you can do that with the standard <span class="func">html_document</span> format.  And sometimes there is a lot of output from a chunk that I definitely do not want clogging up the code or document, but still may want to regularly inspect.  Code should have a *flow* just like text should, at least that's my opinion.  
+I've been using <span class="emph">notebooks</span> since they were first advertised as part of an RStudio preview release.  However, it is still not clear to me what their role is[^phablet], other than to allow your output to reside in your R markdown document rather than the console, something typically not desirable to me (at least with how I use R).  I guess it's useful if you want to share the script/document and let someone else play with the code, but technically they could do that with an R Markdown document anyway, or a basic R script for that matter.  Having the output below or to the side of the document rather than a few inches from that point is not something I can get overly excited about, and you can do that with the standard <span class="func">html_document</span> format.  And sometimes there is a lot of output from a chunk that I definitely do not want clogging up the code or document, but still may want to regularly inspect.  Code should have a *flow* just like text should, at least that's my opinion.  
 
-That said, notebooks do appear be highly useful for educational purposes, and more so if they make it such that the notebooks run in Jupyter similar to Python's \*.nb files. I also like Julia's approach to it's standard script, where you can simply hover/click for the output rather than have it automatically spat out, and maybe the R notebooks will go that direction. Stay tuned to see how this document format pans out. 
+That said, notebooks do appear be highly useful for educational purposes, and more so if they make it such that the notebooks run in Jupyter[^jupyterR] similar to Python's \*.nb files. I also like Julia's approach to it's standard script, where you can simply hover/click for the output rather than have it automatically displayed, and maybe the R notebooks will go that direction. Stay tuned to see how this document format pans out. 
 
 
 ### Print
@@ -122,7 +123,7 @@ These days I cannot think of a reason to do a set of pdf slides as there is zero
 - <span class="emph">Package Vignette</span> 	R package vignette (HTML)
 - <span class="emph">GitHub Document</span>  GitHub Flavored Markdown document.
 
-I'll provide a few words about these formats but may expand later. This document was created with bookdown, so that should give you some idea about its capabilities.  The website format is not shiny nor just the standard html doc output, but a format of its own.  The Tufte handouts work very well for pdf, and perhaps for standard html versions, but I've had issues with bookdown and the Tufte output is not well documented for it.  Package vignettes are very useful if you actually create an R package, but can otherwise be ignored.  A GitHub doc isn't much different from standard markdown, so may be of limited use, even assuming you are using GitHub in the first place.
+I'll provide a few words about these formats but may expand later. This document was created with bookdown, so that should give you some idea about its capabilities.  The website format is not shiny, nor just the standard html doc output, but a format of its own.  The Tufte handouts work very well for pdf, and perhaps for standard html versions, but I've had issues with bookdown and the Tufte output is not well documented for it.  Package vignettes are very useful if you actually create an R package, but can otherwise be ignored.  A GitHub doc isn't much different from standard markdown, so may be of limited use, even assuming you are using GitHub in the first place.
 
 
 ## Other
@@ -131,7 +132,7 @@ I'll provide a few words about these formats but may expand later. This document
 
 For customization you'll need to learn at least a little HTML and CSS, and possibly quite a bit once you go down the rabbit hole, along with other languages such as JavaScript.  This goes for all R markdown based document formats.  I find it necessary to get things how I want them, but you may be fine with default themes etc.
 
-In addition, user created formats with custom looks or functionality are now coming into play, and will provide other formats beyond what you can get from the RStudio crowd. 
+In addition, user-created formats with custom looks or functionality are now coming into play, and will provide other formats beyond what you can get from the RStudio crowd. 
 
 
 ### Rpubs
@@ -156,7 +157,7 @@ I'll add more stuff here as I come across it.
 
 [^phablet]: Maybe I'm short-sighted but notebooks strike me as the phablet of R markdown output formats. As quoted from J.J. Allaire in response from someone who wanted a simple description that states the difference between notebooks and the standard html doc: "They are the same thing, r notebooks are just a way of working interactively with R Markdown and embedding the source code directly within the R Markdown output."  
 
-[^jupyterR]: You can already use R with Jupyter, but it's very limited compared with what you can do with R in RStudio with R Markdown.
+[^jupyterR]: You can already use R with Jupyter, but it's limited compared with what you can do with R in RStudio with R Markdown.
 
 [^reveal]: revealjs is an R package that ports the reveal JavaScript library.
 

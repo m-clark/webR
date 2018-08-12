@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Engaging the Web with R</title>
+  <meta name="description" content="An introduction to using R for the web.">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Engaging the Web with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="An introduction to using R for the web." />
+  <meta name="github-repo" content="m-clark/webR" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Engaging the Web with R" />
+  
+  <meta name="twitter:description" content="An introduction to using R for the web." />
+  
+
+
+
+<meta name="date" content="2018-08-12">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="intro.html">
+<link rel="next" href="APIs.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.2/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.8.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.39.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.39.2/plotly-latest.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.1/leaflet.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="book.css" type="text/css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class='before'><a href="./">Engaging the Web with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i>Introduction</a><ul>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#prerequisites"><i class="fa fa-check"></i>Prerequisites</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html"><i class="fa fa-check"></i>Web scraping</a><ul>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#direct-data-download"><i class="fa fa-check"></i>Direct data download</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#key-concepts"><i class="fa fa-check"></i>Key concepts</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#the-basic-approach"><i class="fa fa-check"></i>The basic approach</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#examples"><i class="fa fa-check"></i>Examples</a><ul>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#tables"><i class="fa fa-check"></i>Tables</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#text"><i class="fa fa-check"></i>Text</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#images"><i class="fa fa-check"></i>Images</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#issues"><i class="fa fa-check"></i>Issues</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html"><i class="fa fa-check"></i>APIs</a><ul>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#raw-example"><i class="fa fa-check"></i>Raw Example</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#r-packages"><i class="fa fa-check"></i>R packages</a><ul>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#new-york-times-article-search"><i class="fa fa-check"></i>New York Times Article Search</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#wikipedia-1"><i class="fa fa-check"></i>Wikipedia</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#qualtrics"><i class="fa fa-check"></i>Qualtrics</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#others"><i class="fa fa-check"></i>Others</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#issues-1"><i class="fa fa-check"></i>Issues</a><ul>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#documentation"><i class="fa fa-check"></i>Documentation</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#api-changes"><i class="fa fa-check"></i>API Changes</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#broken-api"><i class="fa fa-check"></i>Broken API</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#restrictions"><i class="fa fa-check"></i>Restrictions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i>Visualization</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#systems"><i class="fa fa-check"></i>Systems</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#plotly"><i class="fa fa-check"></i>plotly</a></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#rbokeh"><i class="fa fa-check"></i>rbokeh</a></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#others-1"><i class="fa fa-check"></i>Others</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#htmlwidgets"><i class="fa fa-check"></i>htmlwidgets</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#leaflet-example"><i class="fa fa-check"></i>Leaflet example</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#shiny"><i class="fa fa-check"></i>Shiny</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#server"><i class="fa fa-check"></i>Server</a></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#ui"><i class="fa fa-check"></i>UI</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#dashboards"><i class="fa fa-check"></i>Dashboards</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html"><i class="fa fa-check"></i>Publishing</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#publishing-languages"><i class="fa fa-check"></i>Publishing Languages</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#markdown"><i class="fa fa-check"></i>Markdown</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#r-markdown"><i class="fa fa-check"></i>R Markdown</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#html-css-etc."><i class="fa fa-check"></i>HTML, CSS etc.</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#latex"><i class="fa fa-check"></i>LaTeX</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#yaml"><i class="fa fa-check"></i>YAML</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#pandoc"><i class="fa fa-check"></i>Pandoc</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#summary"><i class="fa fa-check"></i>Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#document-formats"><i class="fa fa-check"></i>Document Formats</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#html"><i class="fa fa-check"></i>HTML</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#notebooks"><i class="fa fa-check"></i>Notebooks</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#print"><i class="fa fa-check"></i>Print</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#journals"><i class="fa fa-check"></i>Journals</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#presentations"><i class="fa fa-check"></i>Presentations</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#other"><i class="fa fa-check"></i>Other</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#customization"><i class="fa fa-check"></i>Customization</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#rpubs"><i class="fa fa-check"></i>Rpubs</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#more"><i class="fa fa-check"></i>More</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i>Conclusion</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li class='after'">
+   <a href="https://m-clark.github.io/">
+      <img src="img/mc_logo.png" style="width:25%; padding:0px 0; display:block; margin: 0 auto;" alt="MC logo">
+   </a>
+</li>
+<li class='after'">
+   <div style='text-align:center'>
+      <a href="https://github.com/m-clark/">
+         <i class="fab fa-github fa-2x" aria-hidden="true"></i>
+      </a>
+   </div>
+</li>
+<li class='after'">
+   <div style='text-align:center'>
+      <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+         <i class="fab fa-creative-commons fa-lg"></i>
+         <i class="fab fa-creative-commons-by fa-lg"></i>
+         <i class="fab fa-creative-commons-sa fa-lg"></i>
+      </a>
+   </div>
+</li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Engaging the Web with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="web-scraping" class="section level1">
+<h1>Web scraping</h1>
+<p>We begin with a discussion on <span class="emph">web scraping</span>. The term itself is ambiguous, and could potentially mean anything<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, but the gist is that there is something out on the web (or some connected machine) that we want, and we’d like to use R to get it. This section won’t (at least for now) get into lower level utilities such as that provided by <span class="pack">httr</span> or <span class="pack">Rcurl</span>, though some packages will be using them under the hood. Instead, focus will be on higher-level approaches with an eye toward common tasks.</p>
+<p>As a starting point, open a browser and go to a website of your preference. For most browsers, Ctrl+U will open up the underlying html file. If you’re on a typical webpage it will almost certainly look like a mess of <span class="emph">html</span>, <span class="emph">JavaScript</span>, <span class="emph">XML</span> and possibly other things. Simpler pages are more easily discernible, while more complex/secure pages are not. The take home message is that what you want is represented by something in there, and you’ll have to know something about that structure in order to get it.</p>
+<p>Unfortunately, a lot of web design is quite poor<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, which will make your job difficult. Even when the sole purpose of a site is to provide data, you can almost be sure that the simplest/most flexible path will not be taken to do so. Thankfully you can use R and possibly other tools to make the process at least somewhat less painful.</p>
+<div id="direct-data-download" class="section level2">
+<h2>Direct data download</h2>
+<p>One thing to be aware of is that you can get data from the web that are in typical formats just as you would any file on your own machine. For example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">mydata =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;http://somewebsite/data.csv&#39;</span>)</a></code></pre></div>
+<p>I wouldn’t even call this web scraping, just as you wouldn’t if you were getting a file off a network connection. However, if you’re just starting out with R, it’s important to know this is possible. In any case, do not make things more difficult than they need to be- if the file is available just grab it.</p>
+</div>
+<div id="key-concepts" class="section level2">
+<h2>Key concepts</h2>
+<p>The web works in mysterious ways, but you don’t have to know a lot about it to use it or benefit from its data. Many people have had their own websites for years without knowing any html. For our purposes, it helps to know a little and is actually required, at least so that we know what to look for.</p>
+<p>Common <a href="https://en.wikipedia.org/wiki/HTML_element">elements</a> or <span class="emph">tags</span><a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> of a webpage include things like <code>div</code> <code>table</code> and <code>ul</code> and <code>body</code>, and within such things our data will be found. Some common ones include:</p>
+<ul>
+<li><code>div</code> and <code>span</code>: used when other elements are not appropriate but one still wants to define classes, ids etc.</li>
+<li><code>p</code> paragraph</li>
+<li><code>a</code> link (technically ‘anchor’)</li>
+<li><code>ul</code> <code>ol</code> lists</li>
+<li><code>table</code> <code>tr</code> <code>td</code> tables, table rows, table data (cell)</li>
+<li><code>h#</code> i.e. <code>h1</code> <code>h2</code> etc. headers</li>
+<li><code>img</code> images</li>
+</ul>
+<p>Consider the following:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode html"><code class="sourceCode html"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">&lt;h3&gt;</span> This header denotes a section of text</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">&lt;img</span><span class="ot"> src=</span><span class="st">&quot;picture_of_cat.png&quot;</span><span class="kw">&gt;&lt;/img&gt;</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw">&lt;p&gt;</span> This is a  paragraph! <span class="kw">&lt;/p&gt;</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="kw">&lt;p&gt;</span> Here is another! This one has <span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;www.someurl.com&quot;</span><span class="kw">&gt;</span>a link<span class="kw">&lt;/a&gt;</span>! <span class="kw">&lt;/p&gt;</span></a></code></pre></div>
+<p>As an example, if we wanted to scrape every paragraph that had the word paragraph in it, we’d need to first get all the <code>&lt;p&gt;</code> elements and work from there.</p>
+<p>Just like in other programming languages, these parts of a webpage have their own <span class="emph">class</span>, e.g. <code>&lt;table class=&quot;wikitable sortable&quot;&gt;</code>, and this allows even easier access to the objects of specific interest. Take a look at the source for the Wikipedia page for <a href="https://en.wikipedia.org/wiki/List_of_cities,_villages,_and_townships_in_Michigan">towns in Michigan</a>.</p>
+<p><img src="img/mich_town_wiki.png" style="display:block; margin: 0 auto;"></p>
+<p>The <span class="emph">id</span> is another <span class="emph">attribute</span>, or way to note specific types of objects. Unlike classes, which might be used over and over within a page, ids are unique, and thus for web scraping, probably more useful when appropriate to the task. Also, while elements can have multiple classes, they can have only one id. Any particular element might also have different attributes that specify things like style, alignment, color, file source etc.</p>
+<p>The sad thing is that attributes are greatly underutilized in general. For example, perhaps you found a page with several html tables of data, one for each year. It would have been simple to add an <code>id = year</code> to each one, enabling you to grab just the specific year(s) of interest, but it’ll be rare that you’d find a page that goes that far. Part of this could be due to the fact that much content is auto-generated via WYSIWYG editors, but these are not very professional pages if so, which might cause concern for the data given such a source. Take a look at the <a href="https://open.fda.gov">open.fda.gov</a> site<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>:</p>
+<p><img src="img/openfda.png" style="display:block; margin: 0 auto;"></p>
+<p>It has lots of attributes for practically every element, which would make getting stuff off the page fairly easy, if it didn’t already have an <a href="APIs.html#apis">API</a>.</p>
+<p>In any case, you’ll at least need to know the tag within which the data or link to it may be found. Classes and ids will help to further drill down the web page content, but often won’t be available. In such a case you might have to grab, for example, all the links, and then use some <span class="emph">regular expression</span> to grab only the one you want. See this <a href="https://en.wikipedia.org/wiki/HTML_attribute">link</a> for more on relations between attributes and elements.</p>
+</div>
+<div id="the-basic-approach" class="section level2">
+<h2>The basic approach</h2>
+<p>To summarize the basic approach, we can outline a few steps:</p>
+<ol start="0" style="list-style-type: decimal">
+<li>If a direct link or API is available use it<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></li>
+<li>Inspect the page to find the relevant tags within which the content is found</li>
+<li>Start with a base URL</li>
+<li>Use the relevant R packages to parse the base page</li>
+<li>Extract the desired content</li>
+</ol>
+</div>
+<div id="examples" class="section level2">
+<h2>Examples</h2>
+<p>One of the packages that can make scraping easy is <span class="pack">rvest</span>, which is modeled after/inspired by the <span class="pack">Beautiful Soup</span> module in Python<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>. As the goal here is to get you quickly started, we won’t inundate you with a lot of packages yet. I recommend getting comfy with <span class="pack">rvest</span> and moving to others when needed.</p>
+<div id="tables" class="section level3">
+<h3>Tables</h3>
+<div id="wikipedia" class="section level4">
+<h4>Wikipedia</h4>
+<p>A lot of Wikipedia has pages ripe for the scraping, but it also has an API, so that we can use it as an example later as well. Between the page layout and <span class="pack">rvest</span> it will be very easy to get the content. So let’s do so. Back to the page of towns in Michigan. Let’s see if we can get the table of towns with their type, county, and population. First things first, we need to get the page.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">page =<span class="st"> &#39;https://en.wikipedia.org/wiki/List_of_cities,_villages,_and_townships_in_Michigan&#39;</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">library</span>(rvest)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">towns =<span class="st"> </span><span class="kw">read_html</span>(page)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="kw">str</span>(towns)</a></code></pre></div>
+<pre><code>List of 2
+ $ node:&lt;externalptr&gt; 
+ $ doc :&lt;externalptr&gt; 
+ - attr(*, &quot;class&quot;)= chr [1:2] &quot;xml_document&quot; &quot;xml_node&quot;</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">towns</a></code></pre></div>
+<pre><code>{xml_document}
+&lt;html class=&quot;client-nojs&quot; lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;
+[1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;\n&lt;meta charset=&quot;UTF-8&quot;&gt;\n&lt;title&gt;List of cities, villages, and townships in Michigan - Wikipedia&lt;/title&gt;\n&lt;script&gt;document.documentElement ...
+[2] &lt;body class=&quot;mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-List_of_cities_villages_and_townships_in_Michigan rootpage-List_of_cities_villages_and_townships_in_Michigan skin-vector action-view&quot;&gt;\ ...</code></pre>
+<p>The result of <span class="func">read_html</span> is an <span class="objclass">xml_document</span> class object. For the uninitiated, XML is a markup language (Extensible Markup Language) like HTML, and which allows one to access its parts as nodes in tree<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>, where <em>parents</em> have <em>children</em> and <em>grandchildren</em> etc. It will require further parsing in order to get what we want, but it was easy enough to snag the page. Let’s look at some of the nodes.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">html_nodes</span>(towns, <span class="st">&#39;ul&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span>head   <span class="co"># unordered lists (first few)</span></a></code></pre></div>
+<pre><code>{xml_nodeset (6)}
+[1] &lt;ul&gt;\n&lt;li&gt;&lt;a href=&quot;#A&quot;&gt;A&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=&quot;#B&quot;&gt;B&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=&quot;#C&quot;&gt;C&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=&quot;#D&quot;&gt;D&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=&quot;#E&quot;&gt;E&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=&quot;#F&quot;&gt;F&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=&quot;#G&quot;&gt;G&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt; ...
+[2] &lt;ul&gt;\n&lt;li&gt;&lt;a href=&quot;#See_also&quot;&gt;See also&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=&quot;#References&quot;&gt;References&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=&quot;#External_links&quot;&gt;External links&lt;/a&gt;&lt;/li&gt;\n&lt;/ul&gt;
+[3] &lt;ul&gt;\n&lt;li&gt;&lt;a href=&quot;/wiki/Administrative_divisions_of_Michigan&quot; title=&quot;Administrative divisions of Michigan&quot;&gt;Administrative divisions of Michigan&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=&quot;/wiki/List_of_counties_in_Michigan&quot; title=&quot;Li ...
+[4] &lt;ul&gt;\n&lt;li&gt;&lt;a rel=&quot;nofollow&quot; class=&quot;external text&quot; href=&quot;https://web.archive.org/web/20040908085409/http://www.viennatwp.com/News/township_government_in_michigan.htm&quot;&gt;Township Government in Michigan&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt; ...
+[5] &lt;ul&gt;\n&lt;li&gt;&lt;a rel=&quot;nofollow&quot; class=&quot;external text&quot; href=&quot;https://web.archive.org/web/20020802223743/http://www.census.gov/geo/www/gazetteer/places2k.html&quot;&gt;Census 2000 Gazetteer&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a rel=&quot;nofollow&quot; class ...
+[6] &lt;ul&gt;\n&lt;li class=&quot;nv-view&quot;&gt;&lt;a href=&quot;/wiki/Template:Michigan&quot; title=&quot;Template:Michigan&quot;&gt;&lt;abbr title=&quot;View this template&quot; style=&quot;;;background:none transparent;border:none;-moz-box-shadow:none;-webkit-box-shadow:none; ...</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">html_nodes</span>(towns, <span class="st">&#39;a&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span>head    <span class="co"># links </span></a></code></pre></div>
+<pre><code>{xml_nodeset (6)}
+[1] &lt;a id=&quot;top&quot;&gt;&lt;/a&gt;
+[2] &lt;a class=&quot;mw-jump-link&quot; href=&quot;#mw-head&quot;&gt;Jump to navigation&lt;/a&gt;
+[3] &lt;a class=&quot;mw-jump-link&quot; href=&quot;#p-search&quot;&gt;Jump to search&lt;/a&gt;
+[4] &lt;a href=&quot;/wiki/Wikipedia:Citing_sources&quot; title=&quot;Wikipedia:Citing sources&quot;&gt;list of references&lt;/a&gt;
+[5] &lt;a href=&quot;/wiki/Wikipedia:Citing_sources#Inline_citations&quot; title=&quot;Wikipedia:Citing sources&quot;&gt;inline citations&lt;/a&gt;
+[6] &lt;a href=&quot;/wiki/Wikipedia:WikiProject_Fact_and_Reference_Check&quot; title=&quot;Wikipedia:WikiProject Fact and Reference Check&quot;&gt;improve&lt;/a&gt;</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">html_nodes</span>(towns, <span class="st">&#39;table&#39;</span>)         <span class="co"># tables</span></a></code></pre></div>
+<pre><code>{xml_nodeset (5)}
+[1] &lt;table class=&quot;plainlinks metadata ambox ambox-style ambox-More_footnotes&quot; role=&quot;presentation&quot;&gt;&lt;tbody&gt;&lt;tr&gt;\n&lt;td class=&quot;mbox-image&quot;&gt;&lt;div style=&quot;width:52px&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;//upload.wikimedia.org/wikipedia/commons/t ...
+[2] &lt;table class=&quot;wikitable sortable&quot;&gt;&lt;tbody&gt;\n&lt;tr&gt;\n&lt;th&gt;Place&lt;/th&gt;\n&lt;th&gt;Type&lt;/th&gt;\n&lt;th&gt;County&lt;/th&gt;\n&lt;th&gt;2010 Population&lt;/th&gt;\n&lt;th&gt;2017 Estimate\n&lt;/th&gt;\n&lt;/tr&gt;\n&lt;tr id=&quot;A&quot;&gt;\n&lt;td&gt;&lt;a href=&quot;/wiki/Acme,_Michigan&quot; class=&quot;mw ...
+[3] &lt;table role=&quot;presentation&quot; class=&quot;mbox-small plainlinks sistersitebox&quot; style=&quot;background-color:#f9f9f9;border:1px solid #aaa;color:#000&quot;&gt;&lt;tbody&gt;&lt;tr&gt;\n&lt;td class=&quot;mbox-image&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;//upload.wikimedia.org/ ...
+[4] &lt;table class=&quot;nowraplinks collapsible autocollapse navbox-inner&quot; style=&quot;border-spacing:0;background:transparent;color:inherit&quot;&gt;&lt;tbody&gt;\n&lt;tr&gt;&lt;th scope=&quot;col&quot; class=&quot;navbox-title&quot; colspan=&quot;3&quot;&gt;\n&lt;div class=&quot;plainlinks ...
+[5] &lt;table class=&quot;nowraplinks collapsible autocollapse navbox-inner&quot; style=&quot;border-spacing:0;background:transparent;color:inherit&quot;&gt;&lt;tbody&gt;\n&lt;tr&gt;&lt;th scope=&quot;col&quot; class=&quot;navbox-title&quot; colspan=&quot;2&quot;&gt;\n&lt;div class=&quot;plainlinks ...</code></pre>
+<p>Perhaps now you are getting a sense of what we can possibly extract from this page. It turns out that what we want is a table element, and in particular, the one that is of class <code>wikitable sortable</code>. This will make things very easy. But what if we didn’t know what the element was? it turns out browsers come with the ability to inspect the elements of any webpage, and even change them. The following depicts what the Michigan towns looks like when using Chrome’s built-in developer tools and selecting a link.</p>
+<p><img src="img/chrome_developer.png"></p>
+<p>It highlights everything else in the page that is of a similar type (i.e. other links), as well as provides the css/xml info that we would need to grab that particular item.</p>
+<p>As mentioned, we want the <code>wikitable sortable</code> class table, so lets grab that. The <span class="pack">rvest</span> package comes with the <span class="func">html_table</span> function, that will grab any table and attempt to put it into a data.frame object. I only show the first couple because one of the tables comes out pretty messy at the R console.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">str</span>(<span class="kw">html_table</span>(towns, <span class="dt">fill =</span> <span class="ot">TRUE</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a></code></pre></div>
+<pre><code>List of 3
+ $ :&#39;data.frame&#39;:   1 obs. of  2 variables:
+  ..$ X1: logi NA
+  ..$ X2: chr &quot;This article includes a list of references, but its sources remain unclear because it has insufficient inline c&quot;| __truncated__
+ $ :&#39;data.frame&#39;:   2188 obs. of  5 variables:
+  ..$ Place          : chr [1:2188] &quot;Acme&quot; &quot;Acme Township&quot; &quot;Ada Township&quot; &quot;Adams Township, Arenac County&quot; ...
+  ..$ Type           : chr [1:2188] &quot;unincorporated community&quot; &quot;township&quot; &quot;township&quot; &quot;township&quot; ...
+  ..$ County         : chr [1:2188] &quot;Grand Traverse&quot; &quot;Grand Traverse&quot; &quot;Kent&quot; &quot;Arenac&quot; ...
+  ..$ 2010 Population: chr [1:2188] &quot;&quot; &quot;4,375&quot; &quot;13,142&quot; &quot;563&quot; ...
+  ..$ 2017 Estimate  : logi [1:2188] NA NA NA NA NA NA ...
+ $ :&#39;data.frame&#39;:   1 obs. of  2 variables:
+  ..$ X1: logi NA
+  ..$ X2: chr &quot;Wikimedia Commons has media related to Populated places in Michigan.&quot;</code></pre>
+<p>We know which class object we want though, so we could have used <span class="func">html_nodes</span> to grab <em>only</em> that object and work with it.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">html_nodes</span>(towns, <span class="st">&#39;.wikitable.sortable&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="st">  </span><span class="kw">html_table</span>(<span class="dt">fill =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="st">  </span>.[[<span class="dv">1</span>]] <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="st">  </span><span class="kw">head</span>()</a></code></pre></div>
+<pre><code>                             Place                     Type         County 2010 Population 2017 Estimate
+1                             Acme unincorporated community Grand Traverse                            NA
+2                    Acme Township                 township Grand Traverse           4,375            NA
+3                     Ada Township                 township           Kent          13,142            NA
+4    Adams Township, Arenac County                 township         Arenac             563            NA
+5 Adams Township, Hillsdale County                 township      Hillsdale           2,493            NA
+6  Adams Township, Houghton County                 township       Houghton           2,573            NA</code></pre>
+<p>Here the <code>.</code> in <code>.wikitable.sortable</code> represents the class/subclass (use <code>#</code> for ids). In general though, if you know it’s a table, then use <span class="func">html_table</span>. When the table has no class then you’ll have to use a magic number or some other means to grab it, which may not be as robust. Of course, the class itself might change over time also.</p>
+<p>So let’s put this all together.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">library</span>(stringr)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">towns <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="st">  </span><span class="kw">html_table</span>(<span class="dt">fill =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="st">  </span>.[[<span class="dv">2</span>]] <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">Population =</span> <span class="st">`</span><span class="dt">2010 Population</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Population =</span> <span class="kw">strtoi</span>(<span class="kw">str_replace_all</span>(Population, <span class="st">&#39;,&#39;</span>, <span class="st">&#39;&#39;</span>)),</a>
+<a class="sourceLine" id="cb17-8" data-line-number="8">         <span class="dt">Type =</span> <span class="kw">factor</span>(<span class="kw">str_squish</span>(<span class="kw">str_trim</span>(Type))),</a>
+<a class="sourceLine" id="cb17-9" data-line-number="9">         <span class="dt">Type =</span> forcats<span class="op">::</span><span class="kw">fct_collapse</span>(Type, <span class="dt">unincorporated =</span> <span class="kw">c</span>(<span class="st">&#39;unincorporated community&#39;</span>, <span class="st">&#39;unincorporated community and CDP&#39;</span>, <span class="st">&#39;CDP&#39;</span>))) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb17-10" data-line-number="10"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Population, <span class="dt">fill=</span>Type, <span class="dt">color=</span>Type)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb17-11" data-line-number="11"><span class="st">  </span><span class="kw">scale_x_log10</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb17-12" data-line-number="12"><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha=</span>.<span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb17-13" data-line-number="13"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.background=</span><span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="st">&#39;transparent&#39;</span>, <span class="dt">color=</span><span class="ot">NA</span>),</a>
+<a class="sourceLine" id="cb17-14" data-line-number="14">        <span class="dt">plot.background=</span><span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="st">&#39;transparent&#39;</span>, <span class="dt">color=</span><span class="ot">NA</span>))</a></code></pre></div>
+<p><img src="Engaging_the_Web_with_R_files/figure-html/wikitableGraph-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+<p>I won’t go into details about the rest of the code regarding data processing, as that’s for another <a href="http://m-clark.github.io/workshops/dplyr/mainSlides.html">workshop</a>. For now it suffices to say that it didn’t take much to go from URL to visualization.</p>
+</div>
+<div id="basketball-reference" class="section level4">
+<h4>Basketball Reference</h4>
+<p>As an additional example let’s get some data from <a href="http://www.basketball-reference.com/">basketball-reference.com</a>. The following gets the totals table from the URL<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>. Issues include header rows after every 20<sup>th</sup> row of data, and converting all but a few columns from character to numeric.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">url =<span class="st"> &quot;http://www.basketball-reference.com/leagues/NBA_2018_totals.html&quot;</span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">bball =<span class="st"> </span><span class="kw">read_html</span>(url) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="st">  </span><span class="kw">html_node</span>(<span class="st">&quot;#totals_stats&quot;</span>) <span class="op">%&gt;%</span><span class="st">                       </span><span class="co"># grab element with id &#39;total_stats&#39;</span></a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="st">  </span><span class="kw">html_table</span>() <span class="op">%&gt;%</span><span class="st">                                     </span><span class="co"># the data</span></a>
+<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="st">  </span><span class="kw">filter</span>(Rk <span class="op">!=</span><span class="st"> &quot;Rk&quot;</span>) <span class="op">%&gt;%</span><span class="st">                               </span><span class="co"># remove header rows</span></a>
+<a class="sourceLine" id="cb18-7" data-line-number="7"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(<span class="op">-</span>Player, <span class="op">-</span>Pos, <span class="op">-</span>Tm), as.numeric)      <span class="co"># convert to numeric</span></a>
+<a class="sourceLine" id="cb18-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb18-9" data-line-number="9"><span class="kw">str</span>(bball)</a></code></pre></div>
+<pre><code>&#39;data.frame&#39;:   664 obs. of  30 variables:
+ $ Rk    : num  1 2 3 4 5 6 7 8 9 10 ...
+ $ Player: chr  &quot;Alex Abrines&quot; &quot;Quincy Acy&quot; &quot;Steven Adams&quot; &quot;Bam Adebayo&quot; ...
+ $ Pos   : chr  &quot;SG&quot; &quot;PF&quot; &quot;C&quot; &quot;C&quot; ...
+ $ Age   : num  24 27 24 20 32 29 32 19 25 36 ...
+ $ Tm    : chr  &quot;OKC&quot; &quot;BRK&quot; &quot;OKC&quot; &quot;MIA&quot; ...
+ $ G     : num  75 70 76 69 53 21 75 72 18 22 ...
+ $ GS    : num  8 8 76 19 3 0 75 31 1 0 ...
+ $ MP    : num  1134 1359 2487 1368 682 ...
+ $ FG    : num  115 130 448 174 65 5 687 234 6 44 ...
+ $ FGA   : num  291 365 712 340 162 ...
+ $ FG%   : num  0.395 0.356 0.629 0.512 0.401 0.333 0.51 0.589 0.273 0.484 ...
+ $ 3P    : num  84 102 0 0 27 0 27 5 0 4 ...
+ $ 3PA   : num  221 292 2 7 70 0 92 15 11 12 ...
+ $ 3P%   : num  0.38 0.349 0 0 0.386 NA 0.293 0.333 0 0.333 ...
+ $ 2P    : num  31 28 448 174 38 5 660 229 6 40 ...
+ $ 2PA   : num  70 73 710 333 92 ...
+ $ 2P%   : num  0.443 0.384 0.631 0.523 0.413 0.333 0.526 0.599 0.545 0.506 ...
+ $ eFG%  : num  0.54 0.496 0.629 0.512 0.485 0.333 0.52 0.596 0.273 0.505 ...
+ $ FT    : num  39 49 160 129 22 2 334 114 7 11 ...
+ $ FTA   : num  46 60 286 179 26 6 399 147 9 21 ...
+ $ FT%   : num  0.848 0.817 0.559 0.721 0.846 0.333 0.837 0.776 0.778 0.524 ...
+ $ ORB   : num  26 40 384 118 4 3 246 144 4 20 ...
+ $ DRB   : num  88 217 301 263 62 12 389 244 7 27 ...
+ $ TRB   : num  114 257 685 381 66 15 635 388 11 47 ...
+ $ AST   : num  28 57 88 101 30 3 152 49 12 9 ...
+ $ STL   : num  38 33 92 32 4 2 43 28 3 11 ...
+ $ BLK   : num  8 29 78 41 9 1 90 88 2 3 ...
+ $ TOV   : num  25 60 128 66 21 1 111 82 9 19 ...
+ $ PF    : num  124 149 215 138 56 11 161 147 15 49 ...
+ $ PTS   : num  353 411 1056 477 179 ...</code></pre>
+</div>
+</div>
+<div id="text" class="section level3">
+<h3>Text</h3>
+<p>A lot of times we’ll want to grab text as opposed to tables. See the <a href="APIs.html#apis">API chapter</a> for an example, and the <span class="func">html_text</span> function in the <span class="pack">rvest</span> package.</p>
+</div>
+<div id="images" class="section level3">
+<h3>Images</h3>
+<p>Images are fairly easy because they are simply files with specific extensions like <code>svg</code>, <code>png</code>, <code>gif</code> etc. In that sense, if one knows the actual location of the image already, a function like <span class="func">download.files</span> can be used to grab it directly. Other times it may not be known, and so we can use a similar approach as before to grab the file.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">base_page =<span class="st"> </span><span class="kw">read_html</span>(<span class="st">&#39;https://en.wikipedia.org/wiki/Main_Page&#39;</span>)</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">picofday_location =<span class="st"> </span>base_page <span class="op">%&gt;%</span><span class="st">    </span><span class="co"># get the main page</span></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="st">  </span><span class="kw">html_nodes</span>(<span class="st">&#39;#mp-tfp&#39;</span>) <span class="op">%&gt;%</span><span class="st">          </span><span class="co"># extract the div with &#39;today&#39;s featured picture&#39;, i.e. tfp</span></a>
+<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="st">  </span><span class="kw">html_nodes</span>(<span class="st">&#39;img&#39;</span>) <span class="op">%&gt;%</span><span class="st">              </span><span class="co"># extract the img</span></a>
+<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="st">  </span><span class="kw">html_attr</span>(<span class="st">&#39;src&#39;</span>)                   <span class="co"># grab the source location</span></a></code></pre></div>
+<p>With location in hand we can now download the file, and even display it in R. The following requires the <span class="pack">grid</span> and <span class="pack">jpeg</span> packages.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">download.file</span>(<span class="dt">url=</span><span class="kw">paste0</span>(<span class="st">&#39;https:&#39;</span>, picofday_location), <span class="dt">destfile=</span><span class="st">&#39;img/picofday.jpg&#39;</span>, <span class="dt">mode=</span><span class="st">&#39;wb&#39;</span>)</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb21-3" data-line-number="3">picofday =<span class="st"> </span>jpeg<span class="op">::</span><span class="kw">readJPEG</span>(<span class="dt">source=</span><span class="st">&#39;img/picofday.jpg&#39;</span>)</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb21-5" data-line-number="5">df =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x=</span><span class="kw">rnorm</span>(<span class="dv">1</span>), <span class="dt">y=</span><span class="kw">rnorm</span>(<span class="dv">1</span>))  <span class="co"># note that any random df will suffice</span></a>
+<a class="sourceLine" id="cb21-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="kw">qplot</span>(<span class="dt">data=</span>df, <span class="dt">geom=</span><span class="st">&#39;blank&#39;</span>) <span class="op">+</span><span class="st">                </span></a>
+<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="st">  </span><span class="kw">annotation_custom</span>(grid<span class="op">::</span><span class="kw">rasterGrob</span>(picofday)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb21-9" data-line-number="9"><span class="st">  </span><span class="kw">theme_void</span>()</a></code></pre></div>
+<p><img src="Engaging_the_Web_with_R_files/figure-html/download_show_image-1.svg" width="75%" style="display: block; margin: auto;" /></p>
+<p>Note that an alternative approach that might work on some websites would be to extract all the images and then the one with a relevant naming convention. This doesn’t work for the Wikipedia main page because there is nothing to identify which image is the featured picture by file name alone.</p>
+</div>
+</div>
+<div id="issues" class="section level2">
+<h2>Issues</h2>
+<p>As mentioned, the ease with which you will be able to scrape a website will depend a lot on how well the page/site is put together. Many are cookie-cutter templates designed with no regard to data availability whatsoever, others are just the result of amateurs (like me!) that do not do web design for a living, and still others are just poorly designed. In addition, some websites may have security or other server back end things to consider that require much of the content to be less accessible, perhaps intentionally.</p>
+<p>On the other hand, other sites will make it as easy as a URL pointing to a csv file, or an API that is easily maneuverable. The main thing is that you must plan ahead for encountering difficulty, and/or to be ready for heavy post-processing even when you get the bulk of what you want. The goal should be to make the process automatic such that only a fundamental site or API change will cause you to have to change your code again.</p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>Called by various names: web harvesting, data scraping (presumptuous), etc.<a href="web_scraping.html#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Think about your R code, now remove the spaces, indent as irregularly as possible, do not comment anything, use reserved words for common names, don’t name important parts of your site, reject any known coding style, and use default settings. That would describe much of the typical website design I come across, and the rest is automatically generated, so possibly not even intended to be human-readable.<a href="web_scraping.html#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>There is subtle distinction between <a href="https://en.wikipedia.org/wiki/HTML_element#Elements_vs._tags">tags versus elements</a>, but which won’t really matter to us.<a href="web_scraping.html#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p>The openfda site was depicted using the Mozilla firebug extension.<a href="web_scraping.html#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>APIs change so regularly that in some cases it might be easier to scrape as above, especially if the site itself changes relatively rarely and still allows direct access to the desired content.<a href="web_scraping.html#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn6"><p>I highly recommend <a href="https://www.crummy.com/software/BeautifulSoup/">Beautiful Soup</a> also. Until <span class="pack">rvest</span> and related packages came along, I preferred using Beautiful Soup to what was available in R.<a href="web_scraping.html#fnref6" class="footnote-back">↩</a></p></li>
+<li id="fn7"><p>Think graphical models rather than spruce.<a href="web_scraping.html#fnref7" class="footnote-back">↩</a></p></li>
+<li id="fn8"><p>Technically this data can be downloaded as a supplied csv.<a href="web_scraping.html#fnref8" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="APIs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["twitter", "facebook", "google", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"download": null,
+"toc": {
+"collapse": "section",
+"depth": 2,
+"scroll_highlight": true
+},
+"df_print": "kable",
+"highlight": "pygments",
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

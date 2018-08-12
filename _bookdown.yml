@@ -1,2 +1,17 @@
-book_filename: "webR"
-chapter_name: "Chapter "
+book_filename: 'Engaging the Web with R'
+language:
+  ui:
+    chapter_name: 'Chapter '
+output_dir: 'docs'
+delete_merged_file: true
+
+rmd_files: [
+  'index.Rmd',
+  'intro.Rmd',
+  'web_scraping.Rmd',
+  'APIs.Rmd',
+  'visualization.Rmd',
+  'publishing.Rmd',
+  'conclusion.Rmd',
+  'references.Rmd'
+]

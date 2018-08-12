@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Engaging the Web with R</title>
+  <meta name="description" content="An introduction to using R for the web.">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Engaging the Web with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="An introduction to using R for the web." />
+  <meta name="github-repo" content="m-clark/webR" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Engaging the Web with R" />
+  
+  <meta name="twitter:description" content="An introduction to using R for the web." />
+  
+
+
+
+<meta name="date" content="2018-08-12">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+
+<link rel="next" href="intro.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.2/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.8.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.39.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.39.2/plotly-latest.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.1/leaflet.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="book.css" type="text/css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class='before'><a href="./">Engaging the Web with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i>Introduction</a><ul>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#prerequisites"><i class="fa fa-check"></i>Prerequisites</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html"><i class="fa fa-check"></i>Web scraping</a><ul>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#direct-data-download"><i class="fa fa-check"></i>Direct data download</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#key-concepts"><i class="fa fa-check"></i>Key concepts</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#the-basic-approach"><i class="fa fa-check"></i>The basic approach</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#examples"><i class="fa fa-check"></i>Examples</a><ul>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#tables"><i class="fa fa-check"></i>Tables</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#text"><i class="fa fa-check"></i>Text</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#images"><i class="fa fa-check"></i>Images</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#issues"><i class="fa fa-check"></i>Issues</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html"><i class="fa fa-check"></i>APIs</a><ul>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#raw-example"><i class="fa fa-check"></i>Raw Example</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#r-packages"><i class="fa fa-check"></i>R packages</a><ul>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#new-york-times-article-search"><i class="fa fa-check"></i>New York Times Article Search</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#wikipedia-1"><i class="fa fa-check"></i>Wikipedia</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#qualtrics"><i class="fa fa-check"></i>Qualtrics</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#others"><i class="fa fa-check"></i>Others</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#issues-1"><i class="fa fa-check"></i>Issues</a><ul>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#documentation"><i class="fa fa-check"></i>Documentation</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#api-changes"><i class="fa fa-check"></i>API Changes</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#broken-api"><i class="fa fa-check"></i>Broken API</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#restrictions"><i class="fa fa-check"></i>Restrictions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i>Visualization</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#systems"><i class="fa fa-check"></i>Systems</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#plotly"><i class="fa fa-check"></i>plotly</a></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#rbokeh"><i class="fa fa-check"></i>rbokeh</a></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#others-1"><i class="fa fa-check"></i>Others</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#htmlwidgets"><i class="fa fa-check"></i>htmlwidgets</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#leaflet-example"><i class="fa fa-check"></i>Leaflet example</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#shiny"><i class="fa fa-check"></i>Shiny</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#server"><i class="fa fa-check"></i>Server</a></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#ui"><i class="fa fa-check"></i>UI</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#dashboards"><i class="fa fa-check"></i>Dashboards</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html"><i class="fa fa-check"></i>Publishing</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#publishing-languages"><i class="fa fa-check"></i>Publishing Languages</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#markdown"><i class="fa fa-check"></i>Markdown</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#r-markdown"><i class="fa fa-check"></i>R Markdown</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#html-css-etc."><i class="fa fa-check"></i>HTML, CSS etc.</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#latex"><i class="fa fa-check"></i>LaTeX</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#yaml"><i class="fa fa-check"></i>YAML</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#pandoc"><i class="fa fa-check"></i>Pandoc</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#summary"><i class="fa fa-check"></i>Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#document-formats"><i class="fa fa-check"></i>Document Formats</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#html"><i class="fa fa-check"></i>HTML</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#notebooks"><i class="fa fa-check"></i>Notebooks</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#print"><i class="fa fa-check"></i>Print</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#journals"><i class="fa fa-check"></i>Journals</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#presentations"><i class="fa fa-check"></i>Presentations</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#other"><i class="fa fa-check"></i>Other</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#customization"><i class="fa fa-check"></i>Customization</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#rpubs"><i class="fa fa-check"></i>Rpubs</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#more"><i class="fa fa-check"></i>More</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i>Conclusion</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li class='after'">
+   <a href="https://m-clark.github.io/">
+      <img src="img/mc_logo.png" style="width:25%; padding:0px 0; display:block; margin: 0 auto;" alt="MC logo">
+   </a>
+</li>
+<li class='after'">
+   <div style='text-align:center'>
+      <a href="https://github.com/m-clark/">
+         <i class="fab fa-github fa-2x" aria-hidden="true"></i>
+      </a>
+   </div>
+</li>
+<li class='after'">
+   <div style='text-align:center'>
+      <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+         <i class="fab fa-creative-commons fa-lg"></i>
+         <i class="fab fa-creative-commons-by fa-lg"></i>
+         <i class="fab fa-creative-commons-sa fa-lg"></i>
+      </a>
+   </div>
+</li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Engaging the Web with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Engaging the Web with R</h1>
+<h4 class="author"><em><span class="noem">Michael Clark</span>
+<a href="https://m-clark.github.io/" class="uri">https://m-clark.github.io/</a>
+<img class='arc' src="img/signature-acronym.png" alt="University of Michigan: CSCAR">
+<img class='cscar' src="img/ARC-acronym-signature.png" alt="University of Michigan: Advanced Research Computing"></em></h4>
+<h4 class="date"><em>2018-08-12</em></h4>
+</div>
+<div id="section" class="section level5 unnumbered">
+<h5></h5>
+<p><img src="img/198R.png" width="200" style="display: block; margin: auto;" /></p>
+<p><img src="img/mc_logo.png" width="0" style="display: block; margin: auto;" /></p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="intro.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["twitter", "facebook", "google", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"download": null,
+"toc": {
+"collapse": "section",
+"depth": 2,
+"scroll_highlight": true
+},
+"df_print": "kable",
+"highlight": "pygments",
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

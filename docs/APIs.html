@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Engaging the Web with R</title>
+  <meta name="description" content="An introduction to using R for the web.">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Engaging the Web with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="An introduction to using R for the web." />
+  <meta name="github-repo" content="m-clark/webR" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Engaging the Web with R" />
+  
+  <meta name="twitter:description" content="An introduction to using R for the web." />
+  
+
+
+
+<meta name="date" content="2018-08-12">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="web_scraping.html">
+<link rel="next" href="visualization.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.2/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.8.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.39.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.39.2/plotly-latest.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.1/leaflet.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="book.css" type="text/css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class='before'><a href="./">Engaging the Web with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i>Introduction</a><ul>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#prerequisites"><i class="fa fa-check"></i>Prerequisites</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html"><i class="fa fa-check"></i>Web scraping</a><ul>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#direct-data-download"><i class="fa fa-check"></i>Direct data download</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#key-concepts"><i class="fa fa-check"></i>Key concepts</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#the-basic-approach"><i class="fa fa-check"></i>The basic approach</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#examples"><i class="fa fa-check"></i>Examples</a><ul>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#tables"><i class="fa fa-check"></i>Tables</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#text"><i class="fa fa-check"></i>Text</a></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#images"><i class="fa fa-check"></i>Images</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="web_scraping.html"><a href="web_scraping.html#issues"><i class="fa fa-check"></i>Issues</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html"><i class="fa fa-check"></i>APIs</a><ul>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#raw-example"><i class="fa fa-check"></i>Raw Example</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#r-packages"><i class="fa fa-check"></i>R packages</a><ul>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#new-york-times-article-search"><i class="fa fa-check"></i>New York Times Article Search</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#wikipedia-1"><i class="fa fa-check"></i>Wikipedia</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#qualtrics"><i class="fa fa-check"></i>Qualtrics</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#others"><i class="fa fa-check"></i>Others</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#issues-1"><i class="fa fa-check"></i>Issues</a><ul>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#documentation"><i class="fa fa-check"></i>Documentation</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#api-changes"><i class="fa fa-check"></i>API Changes</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#broken-api"><i class="fa fa-check"></i>Broken API</a></li>
+<li class="chapter" data-level="" data-path="APIs.html"><a href="APIs.html#restrictions"><i class="fa fa-check"></i>Restrictions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i>Visualization</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#systems"><i class="fa fa-check"></i>Systems</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#plotly"><i class="fa fa-check"></i>plotly</a></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#rbokeh"><i class="fa fa-check"></i>rbokeh</a></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#others-1"><i class="fa fa-check"></i>Others</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#htmlwidgets"><i class="fa fa-check"></i>htmlwidgets</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#leaflet-example"><i class="fa fa-check"></i>Leaflet example</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#shiny"><i class="fa fa-check"></i>Shiny</a><ul>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#server"><i class="fa fa-check"></i>Server</a></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#ui"><i class="fa fa-check"></i>UI</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="visualization.html"><a href="visualization.html#dashboards"><i class="fa fa-check"></i>Dashboards</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html"><i class="fa fa-check"></i>Publishing</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#publishing-languages"><i class="fa fa-check"></i>Publishing Languages</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#markdown"><i class="fa fa-check"></i>Markdown</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#r-markdown"><i class="fa fa-check"></i>R Markdown</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#html-css-etc."><i class="fa fa-check"></i>HTML, CSS etc.</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#latex"><i class="fa fa-check"></i>LaTeX</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#yaml"><i class="fa fa-check"></i>YAML</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#pandoc"><i class="fa fa-check"></i>Pandoc</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#summary"><i class="fa fa-check"></i>Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#document-formats"><i class="fa fa-check"></i>Document Formats</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#html"><i class="fa fa-check"></i>HTML</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#notebooks"><i class="fa fa-check"></i>Notebooks</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#print"><i class="fa fa-check"></i>Print</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#journals"><i class="fa fa-check"></i>Journals</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#presentations"><i class="fa fa-check"></i>Presentations</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#other-formats"><i class="fa fa-check"></i>Other formats</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#other"><i class="fa fa-check"></i>Other</a><ul>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#customization"><i class="fa fa-check"></i>Customization</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#rpubs"><i class="fa fa-check"></i>Rpubs</a></li>
+<li class="chapter" data-level="" data-path="publishing.html"><a href="publishing.html#more"><i class="fa fa-check"></i>More</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i>Conclusion</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li class='after'">
+   <a href="https://m-clark.github.io/">
+      <img src="img/mc_logo.png" style="width:25%; padding:0px 0; display:block; margin: 0 auto;" alt="MC logo">
+   </a>
+</li>
+<li class='after'">
+   <div style='text-align:center'>
+      <a href="https://github.com/m-clark/">
+         <i class="fab fa-github fa-2x" aria-hidden="true"></i>
+      </a>
+   </div>
+</li>
+<li class='after'">
+   <div style='text-align:center'>
+      <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+         <i class="fab fa-creative-commons fa-lg"></i>
+         <i class="fab fa-creative-commons-by fa-lg"></i>
+         <i class="fab fa-creative-commons-sa fa-lg"></i>
+      </a>
+   </div>
+</li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Engaging the Web with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="apis" class="section level1">
+<h1>APIs</h1>
+<p>An <span class="emph">application programming interface</span> allows one to interact with a website<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a>. In the simplest situation, this is merely a url-based approach to grabbing what you need.</p>
+<p>As an example consider the following generic URL:</p>
+<p><code>http://somewebsite.com/key?param_1;param_2</code></p>
+<p>The key ingredients are:</p>
+<ul>
+<li><code>http://somewebsite.com/</code> the base URL</li>
+<li><code>key</code> some authorization component</li>
+<li><code>?param_1;param_2</code> the parameters of interest that specify what you want to grab from that website.</li>
+</ul>
+<p>With R, once we have authorization we can then simply feed the parameters that tell the server what data to provide.
+We can do this in a raw fashion, where we make the URL, or web address<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a>, that has the necessary specification, and then just take what it provides. Alternatively, there are many R packages to make the process easier for things like Twitter, Qualtrics, and many other websites.</p>
+<div id="raw-example" class="section level2">
+<h2>Raw Example</h2>
+<p>Basic functions of the raw approach are requests to a server such as <code>GET</code> and <code>POST</code>, commands that tell the server to provide something or perhaps provide data to it. In the following, <span class="objclass">api_key</span><a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a> is an R object with a character string of the key provided to me by the website. I use the <span class="pack">httr</span> package for the web functionality to acquire the content. In particular, the <span class="func">GET</span> function retrieves whatever information is noted by the request/url. Additional arguments or modifications to the base URL can also be provided, which is what the <code>query</code> part does.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># raw approach</span></a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw">library</span>(httr)</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb22-4" data-line-number="4">most_viewed_base =<span class="st"> </span><span class="kw">GET</span>(<span class="st">&#39;https://api.nytimes.com/svc/mostpopular/v2/mostviewed/all-sections/30.json&#39;</span>, </a>
+<a class="sourceLine" id="cb22-5" data-line-number="5">                       <span class="dt">query=</span><span class="kw">list</span>(<span class="st">`</span><span class="dt">api-key</span><span class="st">`</span>=api_key))</a>
+<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="co"># see the url created</span></a>
+<a class="sourceLine" id="cb22-7" data-line-number="7"><span class="co"># most_viewed_base$url # tacks on ?api-key=YOURAPI at the end</span></a></code></pre></div>
+<p>At this point, <span class="objclass">most_viewed_base</span> is a <span class="objclass">response</span> class object, a list with several pieces of information including what we want, which is the content.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">str</span>(most_viewed_base[<span class="op">-</span><span class="dv">1</span>], <span class="dv">1</span>)</a></code></pre></div>
+<pre><code>List of 9
+ $ status_code: int 200
+ $ headers    :List of 18
+  ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;insensitive&quot; &quot;list&quot;
+ $ all_headers:List of 1
+ $ cookies    :&#39;data.frame&#39;:    0 obs. of  7 variables:
+ $ content    : raw [1:59907] 7b 22 73 74 ...
+ $ date       : POSIXct[1:1], format: &quot;2018-08-12 15:38:04&quot;
+ $ times      : Named num [1:6] 0 0.154 0.212 0.309 0.465 ...
+  ..- attr(*, &quot;names&quot;)= chr [1:6] &quot;redirect&quot; &quot;namelookup&quot; &quot;connect&quot; &quot;pretransfer&quot; ...
+ $ request    :List of 7
+  ..- attr(*, &quot;class&quot;)= chr &quot;request&quot;
+ $ handle     :Class &#39;curl_handle&#39; &lt;externalptr&gt; </code></pre>
+<p>However, the content is in <span class="emph">binary</span>, and to get it into a useful state we’ll use the <span class="func">content</span> function. The rest of the code just takes the title and arranges it by date.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">most_viewed =<span class="st"> </span><span class="kw">content</span>(most_viewed_base)</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb25-3" data-line-number="3">most_viewed<span class="op">$</span>results <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="st">  </span><span class="kw">map_df</span>(<span class="cf">function</span>(x) <span class="kw">data_frame</span>(<span class="dt">title=</span>x<span class="op">$</span>title, <span class="dt">date=</span>x<span class="op">$</span>published_date)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(date))</a></code></pre></div>
+<pre><code># A tibble: 20 x 2
+   title                                                                                             date      
+   &lt;chr&gt;                                                                                             &lt;chr&gt;     
+ 1 Ohio Special Election Results: 12th Congressional District                                        2018-08-07
+ 2 Michigan Primary Election Results                                                                 2018-08-07
+ 3 The Age That Women Have Babies: How a Gap Divides America                                         2018-08-04
+ 4 Rick Genest, Tattooed ‘Zombie Boy’ in Lady Gaga Video, Dies at 32                                 2018-08-03
+ 5 Apple’s Value Hit $1 Trillion. Add Disney to Bank of America and ... You’re Halfway There         2018-08-02
+ 6 Losing Earth: The Decade We Almost Stopped Climate Change                                         2018-08-01
+ 7 Facebook Identifies an Active Political Influence Campaign Using Fake Accounts                    2018-07-31
+ 8 Trump Administration Mulls a Unilateral Tax Cut for the Rich                                      2018-07-30
+ 9 Motherhood in the Age of Fear                                                                     2018-07-27
+10 An Extremely Detailed Map of the 2016 Presidential Election                                       2018-07-25
+11 How Goop’s Haters Made Gwyneth Paltrow’s Company Worth $250 Million                               2018-07-25
+12 Spotting CNN on a TV Aboard Air Force One, Trump Rages Against Reality                            2018-07-24
+13 When We Eat, or Don’t Eat, May Be Critical for Health                                             2018-07-24
+14 U.S. Breaks Up Vast I.R.S. Phone Scam                                                             2018-07-23
+15 Michael Cohen Secretly Taped Trump Discussing Payment to Playboy Model                            2018-07-20
+16 From the Start, Trump Has Muddied a Clear Message: Putin Interfered                               2018-07-18
+17 Mariia Butina, Who Sought ‘Back Channel’ Meeting for Trump and Putin, Is Charged as Russian Agent 2018-07-16
+18 Trump, Treasonous Traitor                                                                         2018-07-15
+19 Trump Walks in Front of Queen Elizabeth, Causing Social Media Frenzy                              2018-07-14
+20 The Power of Positive People                                                                      2018-07-10</code></pre>
+<p>The community API can get user comments and movie reviews. In the following case, it will need a specific date to retrieve comments.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">comments_base =<span class="st"> </span><span class="kw">GET</span>(<span class="st">&#39;http://api.nytimes.com/svc/community/v3/user-content/by-date.json&#39;</span>, </a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">                    <span class="dt">query=</span><span class="kw">list</span>(<span class="dt">date=</span><span class="kw">Sys.Date</span>(),</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">                               <span class="st">`</span><span class="dt">api-key</span><span class="st">`</span>=api_key))</a>
+<a class="sourceLine" id="cb27-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb27-5" data-line-number="5">comments =<span class="st"> </span><span class="kw">content</span>(comments_base)</a>
+<a class="sourceLine" id="cb27-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb27-7" data-line-number="7">comments<span class="op">$</span>results<span class="op">$</span>comments <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="st">  </span><span class="kw">map</span>(<span class="cf">function</span>(x) x<span class="op">$</span>commentBody) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb27-9" data-line-number="9"><span class="st">  </span><span class="kw">head</span>()</a></code></pre></div>
+<pre><code>[[1]]
+[1] &quot;One of the easiest Sundays.  This is the only one that I can recall where I was able to not go through multiple passes through the whole puzzle.  Solved the top two thirds and never looked back. The bottom third gave a little struggle but fell quickly. &lt;br/&gt;&lt;br/&gt;Loved the theme and the puns.  Very entertaining.  Figured out the theme after BUTTER RIVALS and CURSES FOULED AGAIN.  And, pangram to boot!  A very well crafted puzzle.  &quot;
+
+[[2]]
+[1] &quot;Paul Ryan has been an abject failure in politics. Not sure that he accomplished much except to show himself to be a weak, impotent, mouthpiece for the greedy and wealthy who sponsored his 20 plus years in congress. A true enemy of the poor, elderly, and under-served. Self serving politicians like Paul Ryan find a way to exploit their time in office. He&#39;ll be fine. Lobbyist?, Fox News contributor?, Conservative \&quot;think tank\&quot;?, 2020 presidential candidate????&quot;
+
+[[3]]
+[1] &quot;You betcha.  It&#39;s like we all moved into a city that has agreed that all buildings painted in the same base and trim Pantone colors, for nearly 2 decades.  &lt;br/&gt;&lt;br/&gt;I&#39;m a performing and recording musician, working with several different bands.  The homogeneity has made learning new material almost an oxymoron.  The result, as a listener, is that all of the music becomes background noise - with no variance, there isn&#39;t much reason to tune in to any particular song, unless I prefer Taylor Swift&#39;s pout to Katy Perry&#39;s.  But - that&#39;s the video...I don&#39;t even need the sound on to appreciate the visual.&lt;br/&gt;&lt;br/&gt;That homogeneity is probably the biggest reason I gave up on pleasure listening to current pop stations over the last 10 years or so.  &lt;br/&gt;&lt;br/&gt;Please - let us hear something different, worth getting excited about!  Something that I can&#39;t play with 95%+ accuracy after hearing it one time! Give me a good reason to spend less time listening to great music that is 25-50 years old, and listen to something new because it&#39;s interesting.&quot;
+
+[[4]]
+[1] &quot;what Trump knows best, and there&#39;s not a whole lot he knows best, is self-promotion. and to his good fortune, his followers ain&#39;t too smart to see through it. well, good for him.&quot;
+
+[[5]]
+[1] &quot;This article is spot on. I was asked to give a talk once, on the most important skill I had learned that paid off in my career. I spoke of learning to type and noted many of Mr. Bruni&#39;s points...typing was persistence, practice,  and eventually success. Such a simple recipe, really...!&quot;
+
+[[6]]
+[1] &quot;@David Appell When money goes out, it may or may not end up paying foreign wages. It could also just go into foreign profit, taxes, real estate, etc.&lt;br/&gt;Eventually, all the money which goes out has to come back. When it comes back to us, it goes to labor, profit, taxes, real estate, etc.&quot;</code></pre>
+<p>The API documentation doesn’t make obvious how the comments are chosen (aside from being taken from some section of the paper), or what the limits are. As mentioned previously, this is typical API documentation in my experience, such that it might take some effort to know exactly what you’re working with.</p>
+</div>
+<div id="r-packages" class="section level2">
+<h2>R packages</h2>
+<p>Many R packages allow extremely easy access to various websites through their API. Usually all it takes is acquiring the authorization and the package will do the rest. It might only be marginally less effort than the raw approach we did before, but can make things more efficient in the long run (assuming the package is kept up to date).</p>
+<div id="new-york-times-article-search" class="section level3">
+<h3>New York Times Article Search</h3>
+<p>The following is an example of accessing the New York Times article search API<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a>. Using the <span class="pack">rtimes</span> package, we can use a function similar to any other in R. In this case we need a query, beginning date and an end date to collect articles that contain the text of the query. Note that it still requires an key, but that’s not shown here.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">library</span>(rtimes)</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb29-3" data-line-number="3">article_search =<span class="st"> </span><span class="kw">as_search</span>(<span class="dt">q=</span><span class="st">&quot;bomb&quot;</span>, </a>
+<a class="sourceLine" id="cb29-4" data-line-number="4">                           <span class="dt">begin_date =</span> <span class="st">&#39;20160918&#39;</span>, </a>
+<a class="sourceLine" id="cb29-5" data-line-number="5">                           <span class="dt">end_date =</span> <span class="st">&#39;20160919&#39;</span>)[<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)]</a>
+<a class="sourceLine" id="cb29-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb29-7" data-line-number="7">article_search<span class="op">$</span>data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb29-8" data-line-number="8"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(pub_date))</a></code></pre></div>
+<pre><code># A tibble: 10 x 25
+   web_url snippet source multimedia keywords pub_date document_type news_desk type_of_material `_id` word_count   score print_page uri   section_name headline.main headline.kicker headline.conten… headline.print_…
+   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;list&gt;     &lt;list&gt;   &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;     &lt;chr&gt;            &lt;chr&gt;      &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;         &lt;lgl&gt;           &lt;lgl&gt;            &lt;chr&gt;           
+ 1 https:… U.S. i… &quot;&quot;     &lt;data.fra… &lt;data.f… 2016-09… article       None      News             57df…          0 2.30e-3 &lt;NA&gt;       &lt;NA&gt;  &lt;NA&gt;         U.S. Officia… NA              NA               U.S. Officials …
+ 2 https:… &quot;Democ… &quot;&quot;     &lt;data.fra… &lt;data.f… 2016-09… article       None      News             57de…          0 2.91e-5 &lt;NA&gt;       &lt;NA&gt;  &lt;NA&gt;         Clinton Cond… NA              NA               Clinton Condemn…
+ 3 https:… The au… The N… &lt;data.fra… &lt;data.f… 2016-09… multimedia    N.Y. / R… Video            57de…         28 3.07e-5 &lt;NA&gt;       &lt;NA&gt;  &lt;NA&gt;         Explosion Ro… NA              NA               &lt;NA&gt;            
+ 4 https:… The La… &quot;&quot;     &lt;data.fra… &lt;data.f… 2016-09… article       None      News             57de…          0 1.90e-5 &lt;NA&gt;       &lt;NA&gt;  &lt;NA&gt;         The Latest: … NA              NA               The Latest: Sus…
+ 5 https:… The pe… The N… &lt;data.fra… &lt;data.f… 2016-09… article       Metro     News             57de…       1587 2.19e-3 1          nyt:… &lt;NA&gt;         Manhattan Bo… NA              NA               Bombs Built for…
+ 6 https:… Somali… &quot;&quot;     &lt;data.fra… &lt;data.f… 2016-09… article       None      News             57de…          0 2.50e-5 &lt;NA&gt;       &lt;NA&gt;  Africa       Al Shabaab K… NA              NA               Al Shabaab Kill…
+ 7 https:… A Soma… &quot;&quot;     &lt;data.fra… &lt;data.f… 2016-09… article       None      News             57de…          0 1.97e-3 &lt;NA&gt;       &lt;NA&gt;  Africa       Somali Islam… NA              NA               Somali Islamist…
+ 8 https:… &quot;Donal… &quot;&quot;     &lt;data.fra… &lt;data.f… 2016-09… article       None      News             57de…          0 1.99e-5 &lt;NA&gt;       &lt;NA&gt;  &lt;NA&gt;         Trump, Clint… NA              NA               Trump, Clinton …
+ 9 https:… Invest… &quot;&quot;     &lt;data.fra… &lt;data.f… 2016-09… article       None      News             57de…          0 1.98e-5 &lt;NA&gt;       &lt;NA&gt;  &lt;NA&gt;         Police Searc… NA              NA               Police Search f…
+10 https:… Ms. Ke… The N… &lt;data.fra… &lt;data.f… 2016-09… article       Arts&amp;Lei… News             57da…       1226 2.11e-3 12         &lt;NA&gt;  Television   Ellie Kemper… NA              NA               … I Bombed on L…
+# ... with 6 more variables: headline.name &lt;lgl&gt;, headline.seo &lt;lgl&gt;, headline.sub &lt;lgl&gt;, byline.original &lt;chr&gt;, byline.person &lt;list&gt;, byline.organization &lt;chr&gt;</code></pre>
+</div>
+<div id="wikipedia-1" class="section level3">
+<h3>Wikipedia</h3>
+<p>With the <span class="pack">WikipediR</span> package, getting the whole content of a page is just one possibility, and it feeds nicely into <span class="pack">rvest</span> functionality for more processing. Here, the package’s <span class="func">page_content</span> function will extract information from the page. The ‘text’ element is the html content, which we can then feed to the previously used <span class="pack">rvest</span> functions. I show only a snippet of the output.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">library</span>(WikipediR)</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb31-3" data-line-number="3">r_wikipedia =<span class="st"> </span><span class="kw">page_content</span>(<span class="dt">language=</span><span class="st">&#39;en&#39;</span>, <span class="st">&#39;wikipedia&#39;</span>, <span class="dt">page_name =</span> <span class="st">&#39;R_(programming_language)&#39;</span>)</a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="kw">str</span>(r_wikipedia[[<span class="dv">1</span>]], <span class="dv">1</span>) <span class="co"># inspect</span></a>
+<a class="sourceLine" id="cb31-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb31-7" data-line-number="7">r_wikipedia<span class="op">$</span>parse<span class="op">$</span>text<span class="op">$</span><span class="st">`</span><span class="dt">*</span><span class="st">`</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb31-8" data-line-number="8"><span class="st">  </span>read_html <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb31-9" data-line-number="9"><span class="st">  </span>html_text <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb31-10" data-line-number="10"><span class="st">  </span>message</a></code></pre></div>
+<p><img src="img/rpage.png" style="display:block; margin: 0 auto;"></p>
+</div>
+<div id="qualtrics" class="section level3">
+<h3>Qualtrics</h3>
+<p>Qualtrics is a survey software which one can use to create and disseminate surveys and the data from them, and is a very useful tool in this regard. The University of Michigan has a license, and so anyone at the university can use it, which is why I provide a generic example here.</p>
+<p>The <span class="pack">qualtricsR</span><a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> package makes it easy to import data from and export surveys to Qualtrics, as well as functionality to create a standard survey within R. As before you’ll need proper authorization, but then it can be straightforward to grab your data from Qualtrics without having to go to the website.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">library</span>(qualtricsR)</a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb32-3" data-line-number="3">mydata =<span class="st"> </span><span class="kw">importQualtricsData</span>(<span class="dt">username =</span> <span class="st">&quot;qualtricsUser@email.address#brand&quot;</span>,  <span class="co"># example micl@umich.edu#umich</span></a>
+<a class="sourceLine" id="cb32-4" data-line-number="4">                             <span class="dt">token =</span> <span class="st">&quot;tokenString&quot;</span>, <span class="dt">surveyID =</span> <span class="st">&quot;idString&quot;</span>)    <span class="co"># your token from Qualtrics</span></a></code></pre></div>
+</div>
+<div id="others" class="section level3">
+<h3>Others</h3>
+<p>Note that there are many R packages that work with various APIs, so if you’re looking to work with data from a site that has an API, definitely see if something already exists. If it is a very popular website, you are probably not the first person using R that wants to access its data.</p>
+</div>
+</div>
+<div id="issues-1" class="section level2">
+<h2>Issues</h2>
+<div id="documentation" class="section level3">
+<h3>Documentation</h3>
+<p>One issue I commonly find with APIs is that often they are generally poorly documented beyond a certain level of initial detail, e.g. often telling you what the parameters are but not the values they can take on. As an example, if something says it wants a date, you may be left to figure out what date format is expected. Sometimes I feel that developers spend so little effort it seems they don’t actually want people to use the API. Just be aware that you may still have some guesswork left even when a lot of information is provided initially.</p>
+</div>
+<div id="api-changes" class="section level3">
+<h3>API Changes</h3>
+<p>Many websites cannot leave the API alone very long. Sometimes this is due to actual content changes that require subsequent changes in the API, sometimes it might reflect a server side issue that needs to be addressed. Often a reason isn’t given. The gist is that you shouldn’t be surprised if an API package in R doesn’t work if it hasn’t been updated recently. As the code is often pretty straightforward, you may be able to easily tweak a function to work with the current API.</p>
+</div>
+<div id="broken-api" class="section level3">
+<h3>Broken API</h3>
+<p>Sometimes someone fiddles with things they shouldn’t and you start getting errors. As an example, when I was first developing this document, NY times article search would start providing different errors depending on the combination of start and end date (forbidden, API rate exceeded, no content etc.). It is not necessarily the case that you are doing something incorrectly.</p>
+</div>
+<div id="restrictions" class="section level3">
+<h3>Restrictions</h3>
+<p>Note that there are almost always restrictions. For example, the New York Times API limits requests to 1000 calls per day, and five calls per second. Unfortunately these are typically not based on actual testing of what modern servers could handle and are often overly restrictive (and overly optimistic in estimates of web traffic) in my opinion. I mention it though because you’ll need to plan ahead. If you need 1 million requests, but the API restricts you to 1000 a day, you’ll obviously need some other way to get the data you want. Fortunately, a simple request to the website developers for more flexibility might be all that is needed.</p>
+
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="9">
+<li id="fn9"><p><a href="https://en.wikipedia.org/wiki/Application_programming_interface">APIs</a> are much more general than just the Web version described here, in that they allow a means of interaction with anything- operating system, software, hardware etc. For our purposes though, it usually boils down to the examples above.<a href="APIs.html#fnref9" class="footnote-back">↩</a></p></li>
+<li id="fn10"><p>Technically <span class="emph">uniform resource locator</span>.<a href="APIs.html#fnref10" class="footnote-back">↩</a></p></li>
+<li id="fn11"><p>The reason you don’t see the key is that, like passwords, you should not provide your keys to others. They provide a means for <em>you</em> to interact with the website, not other people.<a href="APIs.html#fnref11" class="footnote-back">↩</a></p></li>
+<li id="fn12"><p>There are several APIs for different types of content.<a href="APIs.html#fnref12" class="footnote-back">↩</a></p></li>
+<li id="fn13"><p><a href="https://github.com/saberry/qualtricsR" class="uri">https://github.com/saberry/qualtricsR</a><a href="APIs.html#fnref13" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="web_scraping.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="visualization.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["twitter", "facebook", "google", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"download": null,
+"toc": {
+"collapse": "section",
+"depth": 2,
+"scroll_highlight": true
+},
+"df_print": "kable",
+"highlight": "pygments",
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

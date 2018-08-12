@@ -1,0 +1,30 @@
+
+# Introduction {.unnumbered} 
+
+```{r echo=FALSE}
+# library(tufte); 
+library(tidyverse)
+```
+
+<span style="font-variant:small-caps; font-size:150%">Well known for its statistical capabilities</span>, R can also be used for web-scraping, connecting with websites via APIs, html documents and presentations, interactive visualizations, dashboards, and even building entire, possibly interactive, websites.  This document and related talk will provide an overview of web-based use of R. Conceptual introductions, package synopses, and small demonstrations will be presented. 
+
+
+## Prerequisites {.unnumbered} 
+
+Basic R knowledge is all that is required, and not even statistical knowledge of any kind is assumed.  The focus will be on breadth (e.g. common use) rather than depth. One of the things you'll want to do before getting started is to peruse the Task Views for [Web Technologies](https://cran.r-project.org/web/views/WebTechnologies.html).  There is heavy use of the [tidyverse for data processing](https://m-clark.github.io/data-processing-and-visualization/tidyverse.html), so you'll need to be familiar with it to understand what the code is doing.
+
+
+Color coding:
+
+- <span class="emph">emphasis</span>
+- <span class="pack">package</span>
+- <span class="func">function</span>
+- <span class="objclass">object/class</span>
+- [link]()
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(.packages(), 'bookdown', 'knitr', 'rmarkdown'), 'packages.bib')
+```
+
+
